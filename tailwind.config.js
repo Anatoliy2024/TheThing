@@ -10,6 +10,13 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ["ui-sans-serif", "system-ui"],
+      serif: ["ui-serif", "Georgia"],
+      mono: ["ui-monospace", "SFMono-Regular"],
+      rubik: ['"Rubik Wet Paint"', "system-ui"],
+      permanent: ['"Permanent Marker"', "system-ui"],
+    },
   },
   plugins: [],
 }

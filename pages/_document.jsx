@@ -9,6 +9,14 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
             rel="stylesheet"
           />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&display=swap"
+            rel="stylesheet"
+          ></link>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Rubik+Wet+Paint&display=swap"
+            rel="stylesheet"
+          ></link>
         </Head>
         <body>
           <Main />
