@@ -15,8 +15,8 @@ export function Header() {
         <UiButton variant="active">Новая игра</UiButton>
         <UiButton variant="search">Поиск игры</UiButton>
       </div>
-      <button className="ml-auto flex gap-2 items-center  max-w-44">
-        <Profile name="Алекс" />
+      <button className="ml-auto flex gap-2 items-center  max-w-45">
+        <Profile name="Макриди" />
         <ArrowDownIcon />
       </button>
     </div>
