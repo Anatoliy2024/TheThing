@@ -3,15 +3,16 @@ import { CARD } from "../constants.js"
 
 export function GameDeck() {
   return (
-    <div>
-      <div className="rounded-xl min-h-[600px] px-1 py-1 bg-sky-950 flex flex-col">
+    <div className="flex-game">
+      <div className="rounded-xl min-h-[600px] px-1 py-1 bg-sky-950 flex flex-col justify-center">
         <div className="flex gap-10 mx-auto">
           <div>Колода</div>
           <div>Активная карта</div>
           <div>Бито</div>
         </div>
         <div className="flex justify-center">2:00</div>
-        <div></div>
+        <div className="flex justify-center">Возьмите карту из колоды</div>
+        <div className="flex justify-center"></div>
         {/* {CARD.map((elem) => {
           return (
             <div

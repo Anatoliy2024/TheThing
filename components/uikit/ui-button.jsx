@@ -5,19 +5,26 @@ import clsx from "clsx"
  * @param {{
  * children:any,
  * className:string,
- * variant:'active'|'search'
+ * variant:'menu'|'classic', 'active'
  *
  * }} props
  * */
-export function UiButton({ children, className, variant }) {
+export function UiButton({ children, className, variant, onClick }) {
   const buttonClassName = clsx(
-    "transition-colors rounded px-8 py-1 text-slate-950  font-bold",
+    "transition-colors rounded  text-slate-950  font-bold",
     className,
     {
-      active: "bg-lime-500 hover:bg-lime-400 active:bg-lime-200",
-      search: "bg-lime-200 hover:bg-lime-100 active:bg-lime-300",
+      menu: "bg-lime-500 hover:bg-lime-400 active:bg-lime-200 px-8 py-2 text-3xl min-w-[300px] ",
+      active:
+        "bg-lime-700 hover:bg-lime-500 active:bg-lime-300 px-8 py-2 text-3xl min-w-[300px] ",
+      classic:
+        "bg-lime-500 hover:bg-lime-400 active:bg-lime-200 px-8 py-1 text-base ",
     }[variant]
   )
 
-  return <button className={buttonClassName}>{children}</button>
+  return (
+    <button onClick={onClick} className={buttonClassName}>
+      {children}
+    </button>
+  )
 }

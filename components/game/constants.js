@@ -337,7 +337,7 @@ export const PLAYERS = [
   },
 ]
 
-export const CARD = [
+export const CARDS = [
   {
     id: 1,
     name: "Нечто",

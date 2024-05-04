@@ -7,14 +7,13 @@ export function Header() {
   return (
     <div className="flex h-18 px-4 items-center gap-4 text-lime-200 bg-black">
       <div className="flex gap-2 items-center">
-        <Image src={image} height={55} />
+        <Image src={image} height={55} alt="Icons" />
         <div className="text-2xl font-permanent">The Thing</div>
       </div>
       <div className="w-px h-10 bg-lime-600 mx-6" />
-      <div className=" flex gap-4">
-        <UiButton variant="active">Новая игра</UiButton>
-        <UiButton variant="search">Поиск игры</UiButton>
-      </div>
+
+      <UiButton variant="classic">Правила игры</UiButton>
+
       <button className="ml-auto flex gap-2 items-center  max-w-45">
         <Profile name="Макриди" />
         <ArrowDownIcon />
