@@ -1,4 +1,12 @@
-export function GameLayout({ menu, option, game, search, status }) {
+export function GameLayout({
+  menu,
+  option,
+  game,
+  search,
+
+  optionPlayers,
+}) {
+  const { status } = optionPlayers
   return (
     <div className="flex justify-center items-center">
       {status === "menu" && (
@@ -9,7 +17,11 @@ export function GameLayout({ menu, option, game, search, status }) {
           {option}
         </div>
       )}
-      {status === "search" && <div>{search}</div>}
+      {status === "search" && (
+        <div className="flex  text-lime-500 text-2xl gap-3 flex-auto">
+          {search}
+        </div>
+      )}
       {status === "game" && <div className="flex w-full gap-3">{game}</div>}
     </div>
   )

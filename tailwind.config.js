@@ -14,6 +14,7 @@ module.exports = {
         chat: "1 1 20%",
         game: "1 1 80%",
         map: "1 1 20%",
+        // trick: "0 0 33,33%",
       },
     },
     fontFamily: {

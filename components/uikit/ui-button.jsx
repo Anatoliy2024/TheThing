@@ -5,7 +5,7 @@ import clsx from "clsx"
  * @param {{
  * children:any,
  * className:string,
- * variant:'menu'|'classic', 'active'
+ * variant:'menu'|'classic'| 'active'
  *
  * }} props
  * */
