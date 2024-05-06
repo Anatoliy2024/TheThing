@@ -10,6 +10,9 @@
     /* font-style: normal; */
   }
 }
+body::-webkit-scrollbar {
+  width: 0px; /* Ширина всего элемента навигации */
+}
 /* body {
   font-family: "Permanent Marker", cursive;
   font-weight: 400;

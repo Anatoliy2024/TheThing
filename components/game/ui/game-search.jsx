@@ -2,10 +2,14 @@ import Image from "next/image"
 import { GameChat } from "./game-chat"
 import { UiButton } from "../../uikit/ui-button"
 import { GAME_STATE_ACTIONS } from "../modal/option-players-reduce"
+import { getCard } from "../modal/get-card"
 
 export function GameSearch({ setGameStart, optionPlayers, dispatch }) {
   const { status, options, playersInfo } = optionPlayers
   if (status !== "search") return null
+
+  const getCardArray = getCard(optionPlayers)
+
   return (
     <>
       <GameChat />
@@ -35,19 +39,13 @@ export function GameSearch({ setGameStart, optionPlayers, dispatch }) {
           variant="active"
           onClick={() => {
             if (Object.keys(playersInfo).length >= 4) {
-              console.log(optionPlayers)
               dispatch({
                 type: GAME_STATE_ACTIONS.CREATE_DECK,
                 status: "game",
-                playerDesk: getCardDeck(optionPlayers),
-                //pack:function()//уменьшение общей колоды на карты которые я вынул
-                //  playersInfo.map((player) => {
-                //   const newObject =
-                //   return "hi"
-                // }),
+                playerDesk: getCardArray[0],
+                pack: getCardArray[1],
               })
               setGameStart(true)
-              // optionPlayers.pack
             } else {
               alert("Минимальное количество участников в игре 4 человека")
             }
@@ -62,16 +60,4 @@ export function GameSearch({ setGameStart, optionPlayers, dispatch }) {
       <div className="flex-map"></div>
     </>
   )
-}
-const getCardDeck = (state) => {
-  const { pack, playersInfo } = state
-  const newCard = playersInfo.map((player) => {
-    const newObject = {}
-    const pack = "" // нужно выбрать тоько события из карты
-    for (let i = 0; i < 4; i++) {
-      const randomNumber = Math.floor(Math.random() * pack.length)
-    }
-    return "hi"
-  })
-  return newCard
 }

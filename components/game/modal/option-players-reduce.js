@@ -29,8 +29,14 @@ export const optionPlayersReduce = (state, action) => {
     }
     case GAME_STATE_ACTIONS.CREATE_DECK: {
       if (action.status === "game") {
-        console.log(action.playerDesk)
-        return { ...state, status: "game" }
+        // console.log(action.playerDesk)
+        // console.log(action.pack)
+        return {
+          ...state,
+          status: "game",
+          pack: action.pack,
+          playersInfo: action.playerDesk,
+        }
       }
     }
     default: {

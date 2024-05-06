@@ -10,8 +10,8 @@ export function createPack(count) {
 }
 
 export function createPlayerInfo(count) {
-  return PLAYERS.slice(0, count).map((el) => {
-    const newObject = {
+  const players = PLAYERS.slice(0, count).map((el) => {
+    const player = {
       ...el,
       isRole: "survivor",
       time: 6000,
@@ -19,7 +19,13 @@ export function createPlayerInfo(count) {
       isPlayerActive: false, //кто ходит в данный момент
       statusPlayer: "default",
     }
+
     console.log("render")
-    return newObject
+    return player
   })
+
+  const randomPlayers = Math.floor(Math.random() * count)
+  players[randomPlayers].isPlayerActive = true
+
+  return players
 }
