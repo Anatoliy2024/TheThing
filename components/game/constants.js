@@ -371,7 +371,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: true,
+    status: "blocked",
   },
   {
     id: 2,
@@ -382,7 +382,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 3,
@@ -393,7 +393,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 4,
@@ -404,7 +404,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 5,
@@ -415,7 +415,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 6,
@@ -426,7 +426,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 7,
@@ -437,7 +437,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 8,
@@ -448,7 +448,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 9,
@@ -459,7 +459,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 10,
@@ -470,7 +470,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 11,
@@ -481,7 +481,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 12,
@@ -492,7 +492,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 13,
@@ -503,7 +503,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 14,
@@ -514,7 +514,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 15,
@@ -525,7 +525,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 16,
@@ -536,7 +536,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 17,
@@ -547,7 +547,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 18,
@@ -558,7 +558,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 19,
@@ -569,7 +569,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 20,
@@ -580,7 +580,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 21,
@@ -591,7 +591,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc110,
     endMove: false,
-    isBlocked: false,
+    status: "disabled",
   },
   {
     id: 22,
@@ -602,6 +602,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 23,
@@ -612,6 +613,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 24,
@@ -622,6 +624,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 25,
@@ -632,6 +635,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 26,
@@ -642,6 +646,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 27,
@@ -652,6 +657,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 28,
@@ -662,6 +668,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 29,
@@ -672,6 +679,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 30,
@@ -682,6 +690,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 31,
@@ -692,6 +701,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 32,
@@ -702,6 +712,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 33,
@@ -712,6 +723,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 34,
@@ -722,6 +734,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 35,
@@ -732,6 +745,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 36,
@@ -742,6 +756,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 37,
@@ -752,6 +767,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 38,
@@ -762,6 +778,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 39,
@@ -772,6 +789,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 40,
@@ -782,6 +800,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 41,
@@ -792,6 +811,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 42,
@@ -802,6 +822,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 43,
@@ -812,6 +833,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 44,
@@ -822,6 +844,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 45,
@@ -832,6 +855,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 46,
@@ -842,6 +866,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 47,
@@ -852,6 +877,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 48,
@@ -862,6 +888,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 49,
@@ -872,6 +899,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 50,
@@ -882,6 +910,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 51,
@@ -892,6 +921,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 52,
@@ -902,6 +932,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 53,
@@ -912,6 +943,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 54,
@@ -922,6 +954,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 55,
@@ -932,6 +965,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 56,
@@ -942,6 +976,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 57,
@@ -952,6 +987,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 58,
@@ -962,6 +998,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 59,
@@ -972,6 +1009,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 60,
@@ -982,6 +1020,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: true,
+    status: "active",
   },
   {
     id: 61,
@@ -992,6 +1031,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: true,
+    status: "active",
   },
   {
     id: 62,
@@ -1002,6 +1042,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: true,
+    status: "active",
   },
   {
     id: 63,
@@ -1012,6 +1053,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: true,
+    status: "active",
   },
   {
     id: 64,
@@ -1022,6 +1064,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: true,
+    status: "active",
   },
   {
     id: 65,
@@ -1032,6 +1075,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: true,
+    status: "active",
   },
   {
     id: 66,
@@ -1042,6 +1086,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: true,
+    status: "active",
   },
   {
     id: 67,
@@ -1052,6 +1097,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 68,
@@ -1062,6 +1108,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 69,
@@ -1072,6 +1119,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 70,
@@ -1082,6 +1130,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 71,
@@ -1092,6 +1141,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 72,
@@ -1102,6 +1152,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 73,
@@ -1112,6 +1163,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 74,
@@ -1122,6 +1174,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 75,
@@ -1132,6 +1185,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 76,
@@ -1142,6 +1196,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 77,
@@ -1152,6 +1207,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 78,
@@ -1162,6 +1218,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 79,
@@ -1172,6 +1229,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 80,
@@ -1182,6 +1240,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 81,
@@ -1192,6 +1251,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 82,
@@ -1202,6 +1262,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 83,
@@ -1212,6 +1273,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "disabled",
   },
   {
     id: 84,
@@ -1222,16 +1284,18 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 85,
-    name: "Никакого шашлыка",
+    name: "Карантин",
     image: cardSrc85,
     pack: 9,
     property: "событие",
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 86,
@@ -1242,6 +1306,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 87,
@@ -1252,6 +1317,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 88,
@@ -1262,6 +1328,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 89,
@@ -1272,6 +1339,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 90,
@@ -1282,6 +1350,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 91,
@@ -1292,6 +1361,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 92,
@@ -1302,6 +1372,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 93,
@@ -1312,6 +1383,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 94,
@@ -1322,6 +1394,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 95,
@@ -1332,6 +1405,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 96,
@@ -1342,6 +1416,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 97,
@@ -1352,6 +1427,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 98,
@@ -1362,6 +1438,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 99,
@@ -1372,6 +1449,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: true,
+    status: "active",
   },
   {
     id: 100,
@@ -1382,6 +1460,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: true,
+    status: "active",
   },
   {
     id: 101,
@@ -1392,6 +1471,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 102,
@@ -1402,6 +1482,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 103,
@@ -1412,6 +1493,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: true,
+    status: "active",
   },
   {
     id: 104,
@@ -1422,6 +1504,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: true,
+    status: "active",
   },
   {
     id: 105,
@@ -1432,6 +1515,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 106,
@@ -1442,6 +1526,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 107,
@@ -1452,6 +1537,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 108,
@@ -1462,6 +1548,7 @@ export const CARDS = [
     transfer: false,
     shirt: cardSrc111,
     endMove: false,
+    status: "active",
   },
   {
     id: 109,
@@ -1472,6 +1559,7 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
   {
     id: 110,
@@ -1482,5 +1570,6 @@ export const CARDS = [
     transfer: true,
     shirt: cardSrc110,
     endMove: false,
+    status: "active",
   },
 ]

@@ -1,6 +1,6 @@
 export const getCard = (state) => {
   const { pack, playersInfo, options } = state
-  //   const arrayCard = [[], [], [], []]
+
   const newPlayersInfo = [...playersInfo]
   console.log(newPlayersInfo)
 
@@ -15,6 +15,7 @@ export const getCard = (state) => {
   if (options.theThing === "Раздается сразу") {
     const randomNumber = Math.floor(Math.random() * playersInfo.length)
     newPlayersInfo[randomNumber].playerDeck.push(theThing)
+    newPlayersInfo[randomNumber].isRole = "theThing"
   } else if (options.theThing === "Рандом") {
     packEvent.push(theThing)
   } else if (options.theThing === "Находится в колоде") {
@@ -27,6 +28,9 @@ export const getCard = (state) => {
     // console.log(newPlayersInfo)
     if (newPlayersInfo[count].playerDeck.length < 4) {
       const randomCard = packEvent.splice(randomNumber, 1)[0]
+      if (randomCard.name === "Нечто") {
+        newPlayersInfo[count].isRole = "theThing"
+      }
       newPlayersInfo[count].playerDeck.push(randomCard)
     } else {
       count++

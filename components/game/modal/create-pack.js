@@ -19,7 +19,6 @@ export function createPlayerInfo(count) {
       isPlayerActive: false, //кто ходит в данный момент
       statusPlayer: "default",
     }
-
     console.log("render")
     return player
   })

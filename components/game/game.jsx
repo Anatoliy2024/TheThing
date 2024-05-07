@@ -13,8 +13,6 @@ import {
 
 const PLAYER_COUNT = 4
 export function Game() {
-  //возможно нужно будет его замемоизировать,чтобы он заного не расчитывался при рендере
-  //он уёдёт в друго компонент при нажатии на начать игру будеть открываться окошко в котором можно будет выбрать настроийки игры потом нужно будет дождаться всех участников а в конце нужно нажать на старт и в этот момент будет расчитанна колода
   const [gameStart, setGameStart] = useState(false)
   // const pack = useMemo(() => createPack(PLAYER_COUNT), [gameStart])
   // const players = PLAYERS.slice(0, PLAYER_COUNT)
@@ -30,7 +28,8 @@ export function Game() {
     optionPlayersReduce,
     {
       pack: useMemo(() => createPack(PLAYER_COUNT), [gameStart, PLAYER_COUNT]),
-      // players: PLAYERS.slice(0, PLAYER_COUNT),
+      activeCard: null,
+      trick: [],
       status: "menu",
       options: {
         time: "1 мин",
@@ -38,9 +37,9 @@ export function Game() {
         superCard: "Без супер карт",
         mode: "Классика",
       },
-      //бита(уменьшается основная клода прибавляется Trick)
-      trick: [],
-      //имя игрока, его роль(заражён,выживший, нечто), время на ход, ео карты, isActivePlayer:true или false , status:bash,default
+      moveStatus: "getCard",
+      clickCard: null,
+      //имя игрока, его роль(заражён,выживший, нечто), время на ход, ео карты, isActivePlayer:true или false , status:bash,default and death
       playersInfo: useMemo(
         () => createPlayerInfo(PLAYER_COUNT),
         [gameStart, PLAYER_COUNT]
