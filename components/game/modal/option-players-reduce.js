@@ -1,3 +1,10 @@
+import {
+  delCard,
+  delCardPLayerPack,
+  getCard,
+  getIndexCard,
+} from "./function-for-reduce"
+
 export const GAME_STATE_ACTIONS = {
   STATUS: "status",
   OPTIONS: "options",
@@ -5,6 +12,7 @@ export const GAME_STATE_ACTIONS = {
   GET_CARD: "get-card",
   CLICK_CARD: "click-card",
   ACTIVE_CARD: "active-card",
+  USE_CARD: "use-card",
   TRASH_CARD: "trash-card",
   TICK: "tick",
 }
@@ -137,30 +145,67 @@ export const optionPlayersReduce = (state, action) => {
       // }
     }
     case GAME_STATE_ACTIONS.ACTIVE_CARD: {
-      if (action.card.status === "activeCard") {
-      } else {
-        alert(`${action.card.name} не может быть активирована`)
+      if (state.moveStatus === "selectCard") {
+        if (state.clickCard !== null && state.activeCard === null) {
+          if (action.card.status === "active") {
+            // const indexCard = state.playersInfo[
+            //   action.player
+            // ].playerDeck.findIndex((card) => card.id === action.card.id)
+            const indexCard = getIndexCard(state, action.player, action.card)
+
+            return {
+              ...state,
+              playersInfo: delCardPLayerPack(state, action.player, indexCard),
+              activeCard: state.clickCard,
+              clickCard: null,
+              moveStatus: "useCard",
+            }
+          } else {
+            alert(`${action.card.name} не может быть активирована`)
+            return state
+          }
+        } else {
+          alert("Карта не выбрана")
+          return state
+        }
       }
       return state
     }
-
+    case GAME_STATE_ACTIONS.USE_CARD: {
+      if (state.moveStatus === "useCard") {
+        return { ...state, moveStatus: "trashCard" }
+      } else {
+        return { ...state, moveStatus: "getCard" }
+      }
+    }
+    // когда стадия useCard ИГРОК БУДЕТ СОВЕРШАТЬ ДЕЙСТВИЕ и как только он его совершит moveStatus поменяется на trashCard нужно новый кейс добавить но сейчас сразу начинается trashCard для упрощения
+    case GAME_STATE_ACTIONS.TRASH_CARD: {
+      if (state.moveStatus === "selectCard") {
+        if (state.clickCard !== null) {
+          const indexCard = getIndexCard(state, action.player, state.clickCard)
+          return {
+            ...state,
+            trash: [...state.trash, state.clickCard],
+            playersInfo: delCardPLayerPack(state, action.player, indexCard),
+            moveStatus: "exchangeCard",
+          }
+        } else {
+          alert("карта не выбрана")
+          return state
+        }
+      } else if (state.moveStatus === "trashCard") {
+        return {
+          ...state,
+          activeCard: null,
+          trash: [...state.trash, state.activeCard],
+          moveStatus: "exchangeCard",
+        }
+      } else {
+        return state
+      }
+    }
     default: {
       return state
     }
   }
-}
-
-function delCard(state, actionCard) {
-  return state.pack.filter((card) => card.id !== actionCard.id)
-}
-
-function getCard(state, playerIndex, newCard) {
-  return [
-    ...state.playersInfo.slice(0, playerIndex),
-    {
-      ...state.playersInfo[playerIndex],
-      playerDeck: [...state.playersInfo[playerIndex].playerDeck, newCard],
-    },
-    ...state.playersInfo.slice(playerIndex + 1),
-  ]
 }

@@ -34,7 +34,7 @@ export const getCard = (state) => {
       newPlayersInfo[count].playerDeck.push(randomCard)
     } else {
       count++
-      if (count === 4) {
+      if (count === playersInfo.length) {
         break
       }
       const randomCard = packEvent.splice(randomNumber, 1)[0]

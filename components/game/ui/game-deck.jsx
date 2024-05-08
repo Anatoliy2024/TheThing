@@ -6,7 +6,7 @@ import clsx from "clsx"
 import { getMoveStatusInfo } from "../modal/get-move-status-info.js"
 
 export function GameDeck({ optionPlayers, dispatch }) {
-  const { playersInfo, pack, activeCard, trick, clickCard, moveStatus } =
+  const { playersInfo, pack, activeCard, trash, clickCard, moveStatus } =
     optionPlayers
 
   const activePlayer = playersInfo.find((player) => player.isPlayerActive)
@@ -15,8 +15,8 @@ export function GameDeck({ optionPlayers, dispatch }) {
   )
 
   return (
-    <div className="flex-game">
-      <div className="rounded-xl min-h-[600px] px-1 py-1 bg-sky-950 flex flex-col py-10">
+    <div className="flex-game z-10">
+      <div className="rounded-xl min-h-[600px] px-1  bg-sky-950 flex flex-col py-10">
         <div className="flex gap-10 justify-center  mx-10 ">
           <UiTrick
             onClick={() => {
@@ -38,24 +38,39 @@ export function GameDeck({ optionPlayers, dispatch }) {
               "Перемешать колоду"
             )}
           </UiTrick>
-          <UiTrick onClick={() => {}}>
+          <UiTrick
+            onClick={() => {
+              dispatch({
+                type: GAME_STATE_ACTIONS.ACTIVE_CARD,
+                player: activePlayerIndex,
+                card: clickCard,
+              })
+            }}
+          >
             {activeCard ? (
               <Image
                 unoptimized
                 alt="колода"
                 src={activeCard.image}
-                className="max-w-[150px] p-1 rounded-xl hover:scale-[2.5] duration-300 transition-transform hover:translate-y-12 "
+                className="max-w-[150px] p-1 rounded-xl hover:scale-[2.5] duration-300 transition-transform hover:translate-y-16 "
               />
             ) : (
               "Активная карта"
             )}
           </UiTrick>
-          <UiTrick onClick={() => {}}>
-            {trick.length ? (
+          <UiTrick
+            onClick={() => {
+              dispatch({
+                type: GAME_STATE_ACTIONS.TRASH_CARD,
+                player: activePlayerIndex,
+              })
+            }}
+          >
+            {trash.length ? (
               <Image
                 unoptimized
                 alt="бита"
-                src={trick[trick.length - 1].shirt}
+                src={trash[trash.length - 1].shirt}
                 className="max-w-[150px] p-1 rounded-xl"
               />
             ) : (
@@ -64,7 +79,13 @@ export function GameDeck({ optionPlayers, dispatch }) {
           </UiTrick>
         </div>
         <div className="flex justify-center">2:00</div>
-        <div className="flex justify-center text-lime-400 py-3 text-2xl">
+        <div
+          className="flex justify-center text-lime-400 py-3 text-2xl"
+          //убрать onClick когда добавлю функциональность
+          onClick={() => {
+            dispatch({ type: GAME_STATE_ACTIONS.USE_CARD })
+          }}
+        >
           {getMoveStatusInfo(optionPlayers)}
         </div>
 
@@ -85,11 +106,7 @@ export function GameDeck({ optionPlayers, dispatch }) {
                 src={el.image}
                 className={clsx(
                   "max-w-[150px] rounded-xl",
-                  clickCard === el
-                    ? el.status === "active"
-                      ? "shadow-lime-400 shadow-lg"
-                      : "shadow-red-400 shadow-lg"
-                    : ""
+                  clickCard === el ? "shadow-lime-400 shadow-lg" : ""
                 )}
               />
             </UiCard>

@@ -11,7 +11,7 @@ import {
   initialOptionPlayers,
 } from "./modal/option-players-reduce"
 
-const PLAYER_COUNT = 4
+const PLAYER_COUNT = 12
 export function Game() {
   const [gameStart, setGameStart] = useState(false)
   // const pack = useMemo(() => createPack(PLAYER_COUNT), [gameStart])
@@ -29,7 +29,7 @@ export function Game() {
     {
       pack: useMemo(() => createPack(PLAYER_COUNT), [gameStart, PLAYER_COUNT]),
       activeCard: null,
-      trick: [],
+      trash: [],
       status: "menu",
       options: {
         time: "1 мин",
@@ -47,7 +47,7 @@ export function Game() {
     },
     initialOptionPlayers
   )
-
+  console.log(optionPlayers.playersInfo)
   return (
     <GameLayout
       optionPlayers={optionPlayers}

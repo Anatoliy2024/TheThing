@@ -11,10 +11,10 @@ module.exports = {
   theme: {
     extend: {
       flex: {
-        chat: "1 1 20%",
-        game: "1 1 80%",
-        map: "1 1 20%",
-        // trick: "0 0 33,33%",
+        chat: "0 1 15%",
+        game: "1 0 55%",
+        // game2: "1 0 60%",
+        map: "0 1 30%",
       },
     },
     fontFamily: {

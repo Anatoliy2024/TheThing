@@ -5,6 +5,10 @@ export function getMoveStatusInfo(state) {
     return "Выберите карту, а после активируйте или сбростье её"
   } else if (state.moveStatus === "activeCard") {
     return "Стадия действия или сброса"
+  } else if (state.moveStatus === "useCard") {
+    return "Выполните действие написанное на карте"
+  } else if (state.moveStatus === "trashCard") {
+    return "Сбросьте карту в бито"
   } else if (state.moveStatus === "exchangeCard") {
     return "Стадия обмена"
   }

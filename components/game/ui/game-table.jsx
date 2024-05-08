@@ -10,7 +10,7 @@ export function GameTable({ optionPlayers, dispatch }) {
     <>
       <GameChat />
       <GameDeck optionPlayers={optionPlayers} dispatch={dispatch} />
-      <GameMap />
+      <GameMap optionPlayers={optionPlayers} dispatch={dispatch} />
     </>
   )
 }
