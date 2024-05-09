@@ -1,5 +1,5 @@
 import { GameLayout } from "./ui/game-layout"
-import { createPack, createPlayerInfo } from "./modal/create-pack"
+import { createPack, createPlayerInfo } from "./modal/create-packAndPlayer"
 import { useState, useMemo, useReducer } from "react"
 import { GameMenu } from "./ui/game-menu"
 import { GameOption } from "./ui/game-option"
@@ -11,7 +11,7 @@ import {
   initialOptionPlayers,
 } from "./modal/option-players-reduce"
 
-const PLAYER_COUNT = 12
+const PLAYER_COUNT = 4
 export function Game() {
   const [gameStart, setGameStart] = useState(false)
   // const pack = useMemo(() => createPack(PLAYER_COUNT), [gameStart])
@@ -37,8 +37,9 @@ export function Game() {
         superCard: "Без супер карт",
         mode: "Классика",
       },
-      moveStatus: "getCard",
-      clickCard: null,
+      moveStatus: "getCard", //getCard, selectCard,useCard,trashCard,exchangeCard
+      wayGame: "right", //left
+      // clickCard: null,
       //имя игрока, его роль(заражён,выживший, нечто), время на ход, ео карты, isActivePlayer:true или false , status:bash,default and death
       playersInfo: useMemo(
         () => createPlayerInfo(PLAYER_COUNT),
@@ -47,7 +48,7 @@ export function Game() {
     },
     initialOptionPlayers
   )
-  console.log(optionPlayers.playersInfo)
+  // console.log(optionPlayers.playersInfo)
   return (
     <GameLayout
       optionPlayers={optionPlayers}

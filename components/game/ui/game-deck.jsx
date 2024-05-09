@@ -8,7 +8,7 @@ import { getMoveStatusInfo } from "../modal/get-move-status-info.js"
 export function GameDeck({ optionPlayers, dispatch }) {
   const { playersInfo, pack, activeCard, trash, clickCard, moveStatus } =
     optionPlayers
-
+  console.log(playersInfo)
   const activePlayer = playersInfo.find((player) => player.isPlayerActive)
   const activePlayerIndex = playersInfo.findIndex(
     (player) => player.isPlayerActive
@@ -42,8 +42,8 @@ export function GameDeck({ optionPlayers, dispatch }) {
             onClick={() => {
               dispatch({
                 type: GAME_STATE_ACTIONS.ACTIVE_CARD,
-                player: activePlayerIndex,
-                card: clickCard,
+                playerIndex: activePlayerIndex,
+                card: activePlayer.clickCard,
               })
             }}
           >
@@ -51,7 +51,11 @@ export function GameDeck({ optionPlayers, dispatch }) {
               <Image
                 unoptimized
                 alt="колода"
-                src={activeCard.image}
+                src={
+                  moveStatus !== "exchangeCard"
+                    ? activeCard.image
+                    : activeCard.shirt
+                }
                 className="max-w-[150px] p-1 rounded-xl hover:scale-[2.5] duration-300 transition-transform hover:translate-y-16 "
               />
             ) : (
@@ -96,6 +100,7 @@ export function GameDeck({ optionPlayers, dispatch }) {
                 dispatch({
                   type: GAME_STATE_ACTIONS.CLICK_CARD,
                   card: el,
+                  playerIndex: activePlayerIndex,
                 })
               }}
               key={el.id}
@@ -106,7 +111,9 @@ export function GameDeck({ optionPlayers, dispatch }) {
                 src={el.image}
                 className={clsx(
                   "max-w-[150px] rounded-xl",
-                  clickCard === el ? "shadow-lime-400 shadow-lg" : ""
+                  activePlayer.clickCard === el
+                    ? "shadow-lime-400 shadow-lg"
+                    : ""
                 )}
               />
             </UiCard>

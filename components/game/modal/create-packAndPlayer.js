@@ -8,7 +8,7 @@ export function createPack(count) {
     }
   })
 }
-
+//isPlayerActive: true| false  ////   active, nextPlayer,targetPlayer, death,bash,default
 export function createPlayerInfo(count) {
   const players = PLAYERS.slice(0, count).map((el) => {
     const player = {
@@ -17,7 +17,10 @@ export function createPlayerInfo(count) {
       time: 6000,
       playerDeck: [],
       isPlayerActive: false, //кто ходит в данный момент
-      statusPlayer: "default",
+      statusPlayer: "default", // default,death,bash,
+      isTarget: "noTarget", //default,nextPlayer,targetPlayer,
+      clickCard: null,
+      // activeCard: null,
     }
     console.log("render")
     return player

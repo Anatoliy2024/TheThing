@@ -1,9 +1,13 @@
 import {
+  changeClickCard,
   delCard,
   delCardPLayerPack,
+  getActivePlayerIndex,
   getCard,
   getIndexCard,
+  setPlayerIsTarget,
 } from "./function-for-reduce"
+import { getNextPlayerIndex } from "./next-player"
 
 export const GAME_STATE_ACTIONS = {
   STATUS: "status",
@@ -14,6 +18,7 @@ export const GAME_STATE_ACTIONS = {
   ACTIVE_CARD: "active-card",
   USE_CARD: "use-card",
   TRASH_CARD: "trash-card",
+
   TICK: "tick",
 }
 
@@ -61,6 +66,7 @@ export const optionPlayersReduce = (state, action) => {
             pack: delCard(state, action.card),
             activeCard: action.card,
             moveStatus: "useCard",
+            playersInfo: setPlayerIsTarget(state, action.player, "noTarget"),
           }
         } else {
           return {
@@ -76,13 +82,25 @@ export const optionPlayersReduce = (state, action) => {
       }
     }
     case GAME_STATE_ACTIONS.CLICK_CARD: {
-      if (state.moveStatus === "selectCard") {
+      if (
+        state.moveStatus === "selectCard" ||
+        state.moveStatus === "exchangeCard"
+      ) {
         console.log(GAME_STATE_ACTIONS.CLICK_CARD)
+        // const indexActivePlayer = getActivePlayerIndex(state) //получение из стейта
+        const indexActivePlayer = action.playerIndex // получение из dicpatch
+        console.log(indexActivePlayer)
 
-        if (state.clickCard === action.card) {
-          return { ...state, clickCard: null }
+        if (state.playersInfo[indexActivePlayer].clickCard === action.card) {
+          return {
+            ...state,
+            playersInfo: changeClickCard(state, indexActivePlayer, null),
+          }
         } else {
-          return { ...state, clickCard: action.card }
+          return {
+            ...state,
+            playersInfo: changeClickCard(state, indexActivePlayer, action.card),
+          }
         }
       } else {
         return state
@@ -146,18 +164,32 @@ export const optionPlayersReduce = (state, action) => {
     }
     case GAME_STATE_ACTIONS.ACTIVE_CARD: {
       if (state.moveStatus === "selectCard") {
-        if (state.clickCard !== null && state.activeCard === null) {
+        // const indexActivePlayer = getActivePlayerIndex(state) //получение из стейта
+        const indexActivePlayer = action.playerIndex // получение из dicpatch
+
+        const activePlayer = state.playersInfo[indexActivePlayer]
+
+        if (activePlayer.clickCard !== null && state.activeCard === null) {
+          //поменять не то приходит где лучше здесть или снаружи
           if (action.card.status === "active") {
             // const indexCard = state.playersInfo[
             //   action.player
             // ].playerDeck.findIndex((card) => card.id === action.card.id)
-            const indexCard = getIndexCard(state, action.player, action.card)
+            const indexCard = getIndexCard(
+              state,
+              indexActivePlayer,
+              action.card
+            )
 
             return {
               ...state,
-              playersInfo: delCardPLayerPack(state, action.player, indexCard),
-              activeCard: state.clickCard,
-              clickCard: null,
+              playersInfo: delCardPLayerPack(
+                state,
+                indexActivePlayer,
+                indexCard
+              ),
+              activeCard: activePlayer.clickCard,
+              // clickCard: null,
               moveStatus: "useCard",
             }
           } else {
@@ -168,8 +200,41 @@ export const optionPlayersReduce = (state, action) => {
           alert("Карта не выбрана")
           return state
         }
+      } else if (state.moveStatus === "exchangeCard") {
+        const indexActivePlayer = action.playerIndex // получение из dicpatch
+        const activePlayer = state.playersInfo[indexActivePlayer]
+        const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+        console.log(state.playersInfo[nextPlayerIndex])
+
+        // exchangeCardPlyer(state, action.playerIndex)
+        function exchangeCardPlyer(state, actionIndexPlyer) {}
+        if (activePlayer.isRole === "survivor") {
+          if (action.card.name !== "Заражение") {
+            // const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+            const activeCardIndex = state.playersInfo[
+              nextPlayerIndex
+            ].playerDeck.findIndex((card) => card.id === action.card.id)
+            console.log(activeCardIndex)
+
+            //получить карты и обменять проблема игроки могут быть как вначале в конец так и разделены началом и концом
+
+            if (state.activeCard !== null) {
+              return {
+                ...state,
+              }
+            } else {
+              return { ...state, activeCard: activePlayer.clickCard }
+            }
+          }
+          return state
+        } else if (activePlayer.isRole) {
+          return state
+        } else {
+          return state
+        }
+      } else {
+        return state
       }
-      return state
     }
     case GAME_STATE_ACTIONS.USE_CARD: {
       if (state.moveStatus === "useCard") {
@@ -194,16 +259,23 @@ export const optionPlayersReduce = (state, action) => {
           return state
         }
       } else if (state.moveStatus === "trashCard") {
+        // const indexActivePlayer = action.playerIndex // получение из dicpatch
+        // const activePlayer = state.playersInfo[indexActivePlayer]
+        const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+        console.log(state.playersInfo[nextPlayerIndex])
+
         return {
           ...state,
           activeCard: null,
           trash: [...state.trash, state.activeCard],
           moveStatus: "exchangeCard",
+          playersInfo: setPlayerIsTarget(state, nextPlayerIndex, "nextPlayer"),
         }
       } else {
         return state
       }
     }
+
     default: {
       return state
     }

@@ -23,7 +23,7 @@ export function GameMap({ optionPlayers, dispatch }) {
                 <div
                   key={player.id}
                   className={clsx(
-                    "absolute text-lime-500 flex flex-col  cursor-pointer  max-w-[100px] px-2 py-2 rounded-2xl truncate ",
+                    "absolute text-lime-500 flex flex-col  cursor-pointer  max-w-[100px] px-2 py-2 rounded-2xl overflow-hidden  ",
                     player.isPlayerActive ? "bg-lime-950 z-20" : ""
                   )}
                   style={playerStyle}
@@ -34,7 +34,8 @@ export function GameMap({ optionPlayers, dispatch }) {
                     width={50}
                     className="rounded-full place-self-center"
                   />
-                  <div className=" select-none place-self-start">
+
+                  <div className="truncate select-none place-self-start ">
                     {player.name}
                   </div>
                 </div>
