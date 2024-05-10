@@ -6,18 +6,31 @@ import clsx from "clsx"
 import { getMoveStatusInfo } from "../modal/get-move-status-info.js"
 
 export function GameDeck({ optionPlayers, dispatch }) {
-  const { playersInfo, pack, activeCard, trash, clickCard, moveStatus } =
-    optionPlayers
-  console.log(playersInfo)
+  const {
+    playersInfo,
+    pack,
+    activeCard,
+    trash,
+    clickCard,
+    moveStatus,
+    protectionCard,
+  } = optionPlayers
+  // console.log(playersInfo)
   const activePlayer = playersInfo.find((player) => player.isPlayerActive)
   const activePlayerIndex = playersInfo.findIndex(
     (player) => player.isPlayerActive
   )
+  console.log(activePlayer)
+  const isProtectionCard =
+    activeCard?.name === "Соблазн" ||
+    (moveStatus === "exchangeCard" &&
+      activeCard === activePlayer.exchangeCard &&
+      activeCard !== null)
 
   return (
     <div className="flex-game z-10">
       <div className="rounded-xl min-h-[600px] px-1  bg-sky-950 flex flex-col py-10">
-        <div className="flex gap-10 justify-center  mx-10 ">
+        <div className="flex gap-3 justify-center   ">
           <UiTrick
             onClick={() => {
               dispatch({
@@ -62,6 +75,29 @@ export function GameDeck({ optionPlayers, dispatch }) {
               "Активная карта"
             )}
           </UiTrick>
+          {isProtectionCard && (
+            <UiTrick
+              className="text-center"
+              onClick={() => {
+                dispatch({
+                  type: GAME_STATE_ACTIONS.ACTIVE_CARD,
+                  playerIndex: activePlayerIndex,
+                  card: activePlayer.clickCard,
+                })
+              }}
+            >
+              {protectionCard ? (
+                <Image
+                  unoptimized
+                  alt="колода"
+                  src={protectionCard.shirt}
+                  className=" max-w-[150px] p-1 rounded-xl hover:scale-[2.5] duration-300 transition-transform hover:translate-y-16  "
+                />
+              ) : (
+                "Выберите катру и кликните сюда для обмена, либо выберите защитную карту и кликните на карту слева"
+              )}
+            </UiTrick>
+          )}
           <UiTrick
             onClick={() => {
               dispatch({

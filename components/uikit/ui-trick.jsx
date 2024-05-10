@@ -5,7 +5,7 @@ export function UiTrick({ className, children, onClick }) {
     <div
       className={clsx(
         className,
-        "min-w-[150px] border border-lime-600 rounded-xl	 flex justify-center items-center text-lime-600 select-none cursor-pointer"
+        "w-[150px] border border-lime-600 rounded-xl	 flex justify-center items-center text-lime-600 select-none cursor-pointer"
       )}
       onClick={onClick}
     >

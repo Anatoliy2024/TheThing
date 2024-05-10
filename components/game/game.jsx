@@ -29,6 +29,7 @@ export function Game() {
     {
       pack: useMemo(() => createPack(PLAYER_COUNT), [gameStart, PLAYER_COUNT]),
       activeCard: null,
+      protectionCard: null,
       trash: [],
       status: "menu",
       options: {
@@ -38,7 +39,8 @@ export function Game() {
         mode: "Классика",
       },
       moveStatus: "getCard", //getCard, selectCard,useCard,trashCard,exchangeCard
-      wayGame: "right", //left
+      wayGame: "right",
+      countStep: 0,
       // clickCard: null,
       //имя игрока, его роль(заражён,выживший, нечто), время на ход, ео карты, isActivePlayer:true или false , status:bash,default and death
       playersInfo: useMemo(
@@ -48,7 +50,7 @@ export function Game() {
     },
     initialOptionPlayers
   )
-  // console.log(optionPlayers.playersInfo)
+  console.log(optionPlayers.playersInfo)
   return (
     <GameLayout
       optionPlayers={optionPlayers}

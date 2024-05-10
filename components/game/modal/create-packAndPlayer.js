@@ -20,6 +20,7 @@ export function createPlayerInfo(count) {
       statusPlayer: "default", // default,death,bash,
       isTarget: "noTarget", //default,nextPlayer,targetPlayer,
       clickCard: null,
+      exchangeCard: null,
       // activeCard: null,
     }
     console.log("render")
