@@ -230,12 +230,13 @@ export const optionPlayersReduce = (state, action) => {
         const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
         const nextPlayer = state.playersInfo[nextPlayerIndex]
 
-        console.log("ActiveCard")
+        // console.log("ActiveCard")
 
         if (
           activePlayer.clickCard !== null &&
-          activePlayer.clickCard.id !== state.activeCard?.id
+          activePlayer.clickCard.id !== activePlayer.exchangeCard?.id
         ) {
+          // console.log(action.card)
           const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
           return playersCheckExchangeCard(
             state,
@@ -243,25 +244,27 @@ export const optionPlayersReduce = (state, action) => {
             nextPlayerIndex,
             action.card
           )
-        }
-        if (
+        } else if (
           nextPlayer.clickCard !== null &&
-          activePlayer.clickCard.id !== state.activeCard.id
+          nextPlayer.clickCard.id !== nextPlayer.exchangeCard?.id
         ) {
+          // console.log(action.card)
           //вроде так должно быть но это неточно, не проверить пока не будет сервера
-          const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
-          return playersCheckExchangeCard(
-            state,
-            nextPlayerIndex,
-            indexActivePlayer,
-            action.card
-          )
+          /* Если будет сервер нужно включить чтобы у next игрока работала проверка на карту, пришлось отключить из за того что ломается всё я искусственно добавляю все данные */
+          // const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+          // return playersCheckExchangeCard(
+          //   state,
+          //   nextPlayerIndex,
+          //   indexActivePlayer,
+          //   action.card
+          // )
         }
+
         if (
           activePlayer.exchangeCard !== null &&
           nextPlayer.exchangeCard !== null
         ) {
-          console.log("У обоих есть")
+          // console.log("У обоих есть")
           // indexActivePlayer
           // nextPlayerIndex
           const cardActivePlayer =
@@ -279,7 +282,7 @@ export const optionPlayersReduce = (state, action) => {
             ),
             activeCard: null,
             moveStatus: "getCard",
-            countStep: state.countStep++,
+            countStep: state.countStep + 1,
           }
         }
         // console.log(
@@ -294,7 +297,7 @@ export const optionPlayersReduce = (state, action) => {
          * потом на кнопу создай псевдо отдачу каты следующим игроком а затем будет меняться активный игрок и начинается следущий ход
          */
       }
-      console.log("конец активации")
+      // console.log("конец активации")
       return state
       break
     }
@@ -306,7 +309,10 @@ export const optionPlayersReduce = (state, action) => {
         console.log("Next игрок положил карту")
         const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
         const randomIndex = Math.floor(Math.random() * 4)
-        const randomCard = state.playersInfo[nextPlayerIndex].playerDeck[0]
+
+        const randomCard =
+          state.playersInfo[nextPlayerIndex].playerDeck[randomIndex]
+
         return {
           ...state,
           playersInfo: state.playersInfo.map((player, index) => {
@@ -319,6 +325,7 @@ export const optionPlayersReduce = (state, action) => {
             }
             return player
           }),
+          activeCard: randomCard,
         }
       } else state
       break

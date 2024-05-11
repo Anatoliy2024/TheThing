@@ -153,7 +153,7 @@ export function playersCheckExchangeCard(
   const player = state.playersInfo[playerIndexOne]
 
   if (player.isRole === "survivor") {
-    // console.log(action)
+    console.log(activeCard)
     if (activeCard.name !== "Заражение") {
       return {
         ...state,
@@ -165,10 +165,14 @@ export function playersCheckExchangeCard(
       return state
     }
   } else if (player.isRole === "theThing") {
-    return {
-      ...state,
-      playersInfo: setExchangeCard(state, playerIndexOne, activeCard),
-      activeCard: activeCard,
+    if (activeCard.status !== "blocked") {
+      return {
+        ...state,
+        playersInfo: setExchangeCard(state, playerIndexOne, activeCard),
+        activeCard: activeCard,
+      }
+    } else {
+      alert("Нельзя передавать карту Нечто")
     }
   } else if (player.isRole === "infected") {
     if (activeCard.name !== "Заражение") {
@@ -200,6 +204,63 @@ export function playersCheckExchangeCard(
     return state
   }
 }
+
+// export function playersCheckExchangeCard(
+//   state,
+//   playerIndexOne,
+//   playerIndexTwo,
+//   activeCard
+// ) {
+//   const player = state.playersInfo[playerIndexOne]
+
+//   if (player.isRole === "survivor") {
+//     // console.log(action)
+//     if (activeCard.name !== "Заражение") {
+//       return {
+//         ...state,
+//         playersInfo: setExchangeCard(state, playerIndexOne, activeCard),
+//         activeCard: activeCard,
+//       }
+//     } else {
+//       alert("Выживший не может передавать заражение")
+//       return state
+//     }
+//   } else if (player.isRole === "theThing") {
+//     return {
+//       ...state,
+//       playersInfo: setExchangeCard(state, playerIndexOne, activeCard),
+//       activeCard: activeCard,
+//     }
+//   } else if (player.isRole === "infected") {
+//     if (activeCard.name !== "Заражение") {
+//       return {
+//         ...state,
+//         playersInfo: setExchangeCard(state, playerIndexOne, activeCard),
+//         activeCard: activeCard,
+//       }
+//     } else {
+//       if (
+//         state.playersInfo[playerIndexTwo].isRole === "theThing" &&
+//         activeCard.status !== "blocked"
+//       ) {
+//         return {
+//           ...state,
+//           playersInfo: setExchangeCard(state, playerIndexOne, activeCard),
+//           activeCard: activeCard,
+//         }
+//       } else {
+//         alert(
+//           "Заражение можно передавать только Нечто. Нельзя передавать заражение, которым вас заразил Нечто"
+//         )
+//       }
+//       alert("Выживший не может передавать заражение")
+//       return state
+//     }
+//   } else {
+//     alert("что то пошло не так")
+//     return state
+//   }
+// }
 
 export function exchangeCardPlayer(
   state,

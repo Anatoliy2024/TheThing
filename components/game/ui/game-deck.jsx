@@ -4,6 +4,8 @@ import { UiCard } from "../../uikit/ui-card.jsx"
 import { GAME_STATE_ACTIONS } from "../modal/option-players-reduce.js"
 import clsx from "clsx"
 import { getMoveStatusInfo } from "../modal/get-move-status-info.js"
+import { getNextPlayerIndex } from "../modal/next-player.js"
+import { useEffect } from "react"
 
 export function GameDeck({ optionPlayers, dispatch }) {
   const {
@@ -20,12 +22,32 @@ export function GameDeck({ optionPlayers, dispatch }) {
   const activePlayerIndex = playersInfo.findIndex(
     (player) => player.isPlayerActive
   )
+
+  const nextPlayerIndex = getNextPlayerIndex(
+    optionPlayers,
+    optionPlayers.wayGame
+  )
   // console.log(activePlayer)
   const isProtectionCard =
     activeCard?.name === "Соблазн" ||
     (moveStatus === "exchangeCard" &&
       activeCard === activePlayer.exchangeCard &&
       activeCard !== null)
+
+  useEffect(() => {
+    if (
+      playersInfo[activePlayerIndex].exchangeCard !== null &&
+      playersInfo[nextPlayerIndex]?.exchangeCard !== null
+    )
+      console.log("useEffect")
+    return dispatch({
+      type: GAME_STATE_ACTIONS.ACTIVE_CARD,
+      playerIndex: activePlayerIndex,
+    })
+  }, [
+    playersInfo[activePlayerIndex].exchangeCard,
+    playersInfo[nextPlayerIndex]?.exchangeCard,
+  ])
 
   return (
     <div className="flex-game z-10">
