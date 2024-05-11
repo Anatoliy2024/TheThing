@@ -20,7 +20,7 @@ export function GameDeck({ optionPlayers, dispatch }) {
   const activePlayerIndex = playersInfo.findIndex(
     (player) => player.isPlayerActive
   )
-  console.log(activePlayer)
+  // console.log(activePlayer)
   const isProtectionCard =
     activeCard?.name === "Соблазн" ||
     (moveStatus === "exchangeCard" &&
@@ -69,7 +69,12 @@ export function GameDeck({ optionPlayers, dispatch }) {
                     ? activeCard.image
                     : activeCard.shirt
                 }
-                className="max-w-[150px] p-1 rounded-xl hover:scale-[2.5] duration-300 transition-transform hover:translate-y-16 "
+                className={clsx(
+                  "max-w-[150px] p-1 rounded-xl  ",
+                  moveStatus !== "exchangeCard"
+                    ? "hover:scale-[2.5] duration-300 transition-transform hover:translate-y-16"
+                    : ""
+                )}
               />
             ) : (
               "Активная карта"

@@ -50,7 +50,7 @@ export function Game() {
     },
     initialOptionPlayers
   )
-  console.log(optionPlayers.playersInfo)
+
   return (
     <GameLayout
       optionPlayers={optionPlayers}

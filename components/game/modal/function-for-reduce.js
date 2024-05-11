@@ -22,7 +22,7 @@ export function delCardPLayerPack(
   nextPlayerIndex,
   statusNextPlyer = {}
 ) {
-  if (!nextPlayerIndex) {
+  if (nextPlayerIndex) {
     const updatedPlayersInfo = state.playersInfo.map((player, currentIndex) => {
       if (currentIndex === playerIndex) {
         return {
@@ -36,10 +36,6 @@ export function delCardPLayerPack(
       } else if (currentIndex === nextPlayerIndex) {
         return {
           ...player,
-          playerDeck: [
-            ...player.playerDeck.slice(0, nextPlayerIndex),
-            ...player.playerDeck.slice(nextPlayerIndex + 1),
-          ],
           ...statusNextPlyer,
         }
       } else {
@@ -98,9 +94,9 @@ export function delCardPLayerPack(
 }
 
 export function getIndexCard(state, playerIndex) {
-  console.log(state)
-  console.log(playerIndex)
-  console.log(state.playersInfo[playerIndex].clickCard)
+  // console.log(state)
+  // console.log(playerIndex)
+  // console.log(state.playersInfo[playerIndex].clickCard)
   return state.playersInfo[playerIndex].playerDeck.findIndex(
     (card) => card.id === state.playersInfo[playerIndex].clickCard.id
   )
@@ -111,7 +107,7 @@ export function getActivePlayerIndex(state) {
   const activePlayerIndex = state.playersInfo.findIndex(
     (player) => player.isPlayerActive
   )
-  console.log(activePlayerIndex)
+  // console.log(activePlayerIndex)
   return activePlayerIndex
 }
 
@@ -212,6 +208,8 @@ export function exchangeCardPlayer(
   cardActivePlayer,
   cardNextPlayer
 ) {
+  console.log("первый", state.playersInfo[indexActivePlayer])
+  console.log("второй", state.playersInfo[nextPlayerIndex])
   return state.playersInfo.map((player, index) => {
     if (index === indexActivePlayer) {
       return {

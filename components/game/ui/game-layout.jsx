@@ -6,6 +6,7 @@ export function GameLayout({
 
   optionPlayers,
 }) {
+  // console.log(optionPlayers)
   const { status } = optionPlayers
   return (
     <div className="flex justify-center items-center">

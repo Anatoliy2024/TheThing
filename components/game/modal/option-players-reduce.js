@@ -46,10 +46,12 @@ export const optionPlayersReduce = (state, action) => {
       } else {
         return state
       }
+      break
     }
     case GAME_STATE_ACTIONS.OPTIONS: {
       console.log(action.options)
       return { ...state, options: { ...state.options, ...action.options } }
+      break
     }
     case GAME_STATE_ACTIONS.CREATE_DECK: {
       if (action.status === "game") {
@@ -62,6 +64,7 @@ export const optionPlayersReduce = (state, action) => {
       } else {
         return state
       }
+      break
     }
     case GAME_STATE_ACTIONS.GET_CARD: {
       if (state.moveStatus === "getCard") {
@@ -93,17 +96,22 @@ export const optionPlayersReduce = (state, action) => {
         alert("Вы уже взяли карту из колода")
         return state
       }
+      break
     }
     case GAME_STATE_ACTIONS.CLICK_CARD: {
-      if (
+      const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+      const indexActivePlayer = getActivePlayerIndex(state)
+
+      const checkOption =
         state.moveStatus === "selectCard" ||
         (state.moveStatus === "exchangeCard" &&
-          state.playersInfo[action.playerIndex].exchangeCard === null)
-      ) {
-        console.log(GAME_STATE_ACTIONS.CLICK_CARD)
-        // const indexActivePlayer = getActivePlayerIndex(state) //получение из стейта
+          ((action.playerIndex === indexActivePlayer &&
+            state.playersInfo[action.playerIndex].exchangeCard === null) ||
+            (action.playerIndex === nextPlayerIndex &&
+              state.playersInfo[nextPlayerIndex].id === null)))
+
+      if (checkOption) {
         const indexActivePlayer = action.playerIndex // получение из dicpatch
-        console.log(indexActivePlayer)
 
         if (state.playersInfo[indexActivePlayer].clickCard === action.card) {
           return {
@@ -119,6 +127,7 @@ export const optionPlayersReduce = (state, action) => {
       } else {
         return state
       }
+      break
       // if (state.moveStatus === "selectCard") {
       //   console.log(action.card)
       //   console.log(action.player)
@@ -221,11 +230,11 @@ export const optionPlayersReduce = (state, action) => {
         const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
         const nextPlayer = state.playersInfo[nextPlayerIndex]
 
-        console.log(state.playersInfo[nextPlayerIndex])
+        console.log("ActiveCard")
 
         if (
           activePlayer.clickCard !== null &&
-          activePlayer.clickCard !== state.activeCard
+          activePlayer.clickCard.id !== state.activeCard?.id
         ) {
           const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
           return playersCheckExchangeCard(
@@ -237,7 +246,7 @@ export const optionPlayersReduce = (state, action) => {
         }
         if (
           nextPlayer.clickCard !== null &&
-          activePlayer.clickCard !== state.activeCard
+          activePlayer.clickCard.id !== state.activeCard.id
         ) {
           //вроде так должно быть но это неточно, не проверить пока не будет сервера
           const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
@@ -252,6 +261,7 @@ export const optionPlayersReduce = (state, action) => {
           activePlayer.exchangeCard !== null &&
           nextPlayer.exchangeCard !== null
         ) {
+          console.log("У обоих есть")
           // indexActivePlayer
           // nextPlayerIndex
           const cardActivePlayer =
@@ -272,26 +282,28 @@ export const optionPlayersReduce = (state, action) => {
             countStep: state.countStep++,
           }
         }
-        console.log(
-          "Карты активного игрока",
-          state.playersInfo[indexActivePlayer].playerDeck
-        )
-        console.log(
-          "Карты следующего игрока",
-          state.playersInfo[nextPlayerIndex].playerDeck
-        )
+        // console.log(
+        //   "Карты активного игрока",
+        //   state.playersInfo[indexActivePlayer].playerDeck
+        // )
+        // console.log(
+        //   "Карты следующего игрока",
+        //   state.playersInfo[nextPlayerIndex].playerDeck
+        // )
         /** Проверка на то что есть ли у обоих игроков карты в clickCard  если есть тогда обмен сразу  или внутри функции проверить и обменяться? возможно лучше внутри после того как задал ехчендж первому игроку проверь есть ли ехчендж у второго, если есть обмен
          * потом на кнопу создай псевдо отдачу каты следующим игроком а затем будет меняться активный игрок и начинается следущий ход
          */
-      } else {
-        return state
       }
+      console.log("конец активации")
+      return state
+      break
     }
     case GAME_STATE_ACTIONS.USE_CARD: {
+      console.log("Зашёл в useCard")
       if (state.moveStatus === "useCard") {
         return { ...state, moveStatus: "trashCard" }
       } else if ((state.moveStatus = "exchangeCard")) {
-        console.log("Сработала смена карт")
+        console.log("Next игрок положил карту")
         const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
         const randomIndex = Math.floor(Math.random() * 4)
         const randomCard = state.playersInfo[nextPlayerIndex].playerDeck[0]
@@ -309,6 +321,7 @@ export const optionPlayersReduce = (state, action) => {
           }),
         }
       } else state
+      break
     }
     // когда стадия useCard ИГРОК БУДЕТ СОВЕРШАТЬ ДЕЙСТВИЕ и как только он его совершит moveStatus поменяется на trashCard нужно новый кейс добавить но сейчас сразу начинается trashCard для упрощения
     case GAME_STATE_ACTIONS.TRASH_CARD: {
@@ -353,10 +366,12 @@ export const optionPlayersReduce = (state, action) => {
       } else {
         return state
       }
+      break
     }
 
     default: {
       return state
+      break
     }
   }
 }
