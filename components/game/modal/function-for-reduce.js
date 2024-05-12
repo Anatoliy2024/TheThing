@@ -302,3 +302,16 @@ export function exchangeCardPlayer(
     return player
   })
 }
+
+export function checkPlayerSeatNearby(arrayPlayers, index1, index2) {
+  // Если один из игроков - первый, а другой - последний, они считаются рядом
+  if (
+    (index1 === 0 && index2 === arrayPlayers.length - 1) ||
+    (index2 === 0 && index1 === arrayPlayers.length - 1)
+  ) {
+    return true
+  }
+
+  // Проверяем, являются ли игроки соседями
+  return Math.abs(index1 - index2) === 1
+}

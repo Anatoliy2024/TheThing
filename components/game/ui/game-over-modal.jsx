@@ -30,20 +30,22 @@ export function GameOverModal({ optionPlayers, dispatch }) {
         className="bg-sky-950/90 max-w-[900px] rounded-lg min-h-[320px] mx-auto flex flex-col items-center py-5 text-lime-500 text-2xl gap-3 relative"
       >
         <div
-          className="border  rounded-full border-2 border-lime-500 p-4 absolute top-6 right-6 hover:bg-lime-500/10 cursor-pointer"
+          className=" rounded-full border-2 border-lime-500 p-4 absolute top-6 right-6 hover:bg-lime-500/10 cursor-pointer"
           onClick={() => dispatch({ type: GAME_STATE_ACTIONS.MODAL_CLOSE })}
         >
           <CrossLightIcon className="" />
         </div>
 
-        <div className="flex flex-col gap-3 ">
-          <h3>{activePlayer.name}</h3>
-          <UiCard className="hover:scale-[2.5] duration-300 transition-transform hover:translate-y-16">
+        <div className="flex flex-col gap-3 items-center ">
+          <h3>{activePlayer.name} использовал(-ла)</h3>
+          <UiCard className="">
             <Image
               unoptimized
               alt={activeCard.name}
               src={activeCard.image}
-              className={clsx("max-w-[150px] rounded-xl ")}
+              className={clsx(
+                "max-w-[150px] rounded-xl  hover:scale-[2.5] duration-300 transition-transform hover:translate-y-16"
+              )}
             />
           </UiCard>
         </div>

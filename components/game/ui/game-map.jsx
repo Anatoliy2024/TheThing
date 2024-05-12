@@ -4,6 +4,9 @@ import { GAME_STATE_ACTIONS } from "../modal/option-players-reduce"
 
 export function GameMap({ optionPlayers, dispatch }) {
   const { playersInfo, wayGame } = optionPlayers
+  const activePlayerIndex = playersInfo.findIndex(
+    (player) => player.isPlayerActive
+  )
   const angleIncrement = (2 * Math.PI) / playersInfo.length
   return (
     <div className="flex-map relative">
@@ -32,6 +35,7 @@ export function GameMap({ optionPlayers, dispatch }) {
                     dispatch({
                       type: GAME_STATE_ACTIONS.ACTIVE_TARGET,
                       playerTargetIndex: index,
+                      activePlayerIndex: activePlayerIndex,
                     })
                   }
                 >

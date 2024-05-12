@@ -10,6 +10,7 @@ import {
   setExchangeCard,
   setPlayerIsTarget,
   setPlayerStatus,
+  checkPlayerSeatNearby,
 } from "./function-for-reduce"
 import { shuffleArray } from "./get-card"
 import { getNextPlayerIndex } from "./next-player"
@@ -333,18 +334,42 @@ export const optionPlayersReduce = (state, action) => {
     }
     case GAME_STATE_ACTIONS.ACTIVE_TARGET: {
       if (state.moveStatus === "useCard") {
-        return {
-          ...state,
-          playersInfo: state.playersInfo.map((player, index) => {
-            if (index === action.playerTargetIndex) {
-              return { ...player, isTarget: "targetPlayer" }
-            }
-            return player
-          }),
+        if (
+          checkPlayerSeatNearby(
+            state.playersInfo,
+            action.activePlayerIndex,
+            action.playerTargetIndex
+          )
+        ) {
+          console.log(state.activeCard === "Подозрение")
+          console.log(state.activeCard === "Анализ")
+          if (
+            state.activeCard.name === "Подозрение" ||
+            state.activeCard.name === "Анализ"
+          ) {
+            return {
+              ...state,
+              playersInfo: state.playersInfo.map((player, index) => {
+                if (index === action.playerTargetIndex) {
+                  return { ...player, isTarget: "targetPlayer" }
+                }
+                return player
+              }),
 
-          isOpenModal: true,
+              isOpenModal: true,
+            }
+            break
+          } else {
+            return state
+            break
+          }
+        } else {
+          alert(
+            `${state.activeCard.name} можно использовать только на соседних игроков`
+          )
+          return state
+          break
         }
-        break
       } else {
         return state
         break
