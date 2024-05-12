@@ -22,7 +22,7 @@ export function GameDeck({ optionPlayers, dispatch }) {
   const activePlayerIndex = playersInfo.findIndex(
     (player) => player.isPlayerActive
   )
-
+  console.log(playersInfo)
   const nextPlayerIndex = getNextPlayerIndex(
     optionPlayers,
     optionPlayers.wayGame
@@ -159,6 +159,7 @@ export function GameDeck({ optionPlayers, dispatch }) {
         <div className="flex justify-center gap-2">
           {activePlayer.playerDeck.map((el) => (
             <UiCard
+              className="hover:scale-[2] duration-300 transition-transform hover:-translate-y-12"
               onClick={() => {
                 dispatch({
                   type: GAME_STATE_ACTIONS.CLICK_CARD,

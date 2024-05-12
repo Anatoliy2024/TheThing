@@ -10,6 +10,7 @@ import {
   optionPlayersReduce,
   initialOptionPlayers,
 } from "./modal/option-players-reduce"
+import { GameOverModal } from "./ui/game-over-modal"
 
 const PLAYER_COUNT = 4
 export function Game() {
@@ -47,23 +48,29 @@ export function Game() {
         () => createPlayerInfo(PLAYER_COUNT),
         [gameStart, PLAYER_COUNT]
       ),
+      isOpenModal: false,
     },
     initialOptionPlayers
   )
   console.log(optionPlayers)
   return (
-    <GameLayout
-      optionPlayers={optionPlayers}
-      menu={<GameMenu optionPlayers={optionPlayers} dispatch={dispatch} />}
-      option={<GameOption optionPlayers={optionPlayers} dispatch={dispatch} />}
-      search={
-        <GameSearch
-          optionPlayers={optionPlayers}
-          dispatch={dispatch}
-          setGameStart={setGameStart}
-        />
-      }
-      game={<GameTable optionPlayers={optionPlayers} dispatch={dispatch} />}
-    />
+    <>
+      <GameLayout
+        optionPlayers={optionPlayers}
+        menu={<GameMenu optionPlayers={optionPlayers} dispatch={dispatch} />}
+        option={
+          <GameOption optionPlayers={optionPlayers} dispatch={dispatch} />
+        }
+        search={
+          <GameSearch
+            optionPlayers={optionPlayers}
+            dispatch={dispatch}
+            setGameStart={setGameStart}
+          />
+        }
+        game={<GameTable optionPlayers={optionPlayers} dispatch={dispatch} />}
+      />
+      <GameOverModal optionPlayers={optionPlayers} dispatch={dispatch} />
+    </>
   )
 }

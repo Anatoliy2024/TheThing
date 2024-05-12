@@ -23,7 +23,8 @@ export const GAME_STATE_ACTIONS = {
   ACTIVE_CARD: "active-card",
   USE_CARD: "use-card",
   TRASH_CARD: "trash-card",
-
+  ACTIVE_TARGET: "active-target",
+  MODAL_CLOSE: "modal-close",
   TICK: "tick",
 }
 
@@ -329,6 +330,35 @@ export const optionPlayersReduce = (state, action) => {
         }
       } else state
       break
+    }
+    case GAME_STATE_ACTIONS.ACTIVE_TARGET: {
+      if (state.moveStatus === "useCard") {
+        return {
+          ...state,
+          playersInfo: state.playersInfo.map((player, index) => {
+            if (index === action.playerTargetIndex) {
+              return { ...player, isTarget: "targetPlayer" }
+            }
+            return player
+          }),
+
+          isOpenModal: true,
+        }
+        break
+      } else {
+        return state
+        break
+      }
+    }
+
+    case GAME_STATE_ACTIONS.MODAL_CLOSE: {
+      if (state.moveStatus === "useCard") {
+        return { ...state, isOpenModal: false, moveStatus: "trashCard" }
+        break
+      } else {
+        return state
+        break
+      }
     }
     // когда стадия useCard ИГРОК БУДЕТ СОВЕРШАТЬ ДЕЙСТВИЕ и как только он его совершит moveStatus поменяется на trashCard нужно новый кейс добавить но сейчас сразу начинается trashCard для упрощения
     case GAME_STATE_ACTIONS.TRASH_CARD: {

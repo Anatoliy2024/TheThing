@@ -1,5 +1,6 @@
 import clsx from "clsx"
 import Image from "next/image"
+import { GAME_STATE_ACTIONS } from "../modal/option-players-reduce"
 
 export function GameMap({ optionPlayers, dispatch }) {
   const { playersInfo, wayGame } = optionPlayers
@@ -27,6 +28,12 @@ export function GameMap({ optionPlayers, dispatch }) {
                     player.isPlayerActive ? "bg-lime-800 z-20" : ""
                   )}
                   style={playerStyle}
+                  onClick={() =>
+                    dispatch({
+                      type: GAME_STATE_ACTIONS.ACTIVE_TARGET,
+                      playerTargetIndex: index,
+                    })
+                  }
                 >
                   <Image
                     alt="avatar"
