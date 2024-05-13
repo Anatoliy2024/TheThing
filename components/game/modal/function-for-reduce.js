@@ -315,3 +315,12 @@ export function checkPlayerSeatNearby(arrayPlayers, index1, index2) {
   // Проверяем, являются ли игроки соседями
   return Math.abs(index1 - index2) === 1
 }
+
+export function setPlayerTarget(state, playerTargetIndex) {
+  return state.playersInfo.map((player, index) => {
+    if (index === playerTargetIndex) {
+      return { ...player, isTarget: "targetPlayer" }
+    }
+    return player
+  })
+}

@@ -11,6 +11,7 @@ import {
   setPlayerIsTarget,
   setPlayerStatus,
   checkPlayerSeatNearby,
+  setPlayerTarget,
 } from "./function-for-reduce"
 import { shuffleArray } from "./get-card"
 import { getNextPlayerIndex } from "./next-player"
@@ -197,26 +198,54 @@ export const optionPlayersReduce = (state, action) => {
         if (activePlayer.clickCard !== null && state.activeCard === null) {
           //поменять не то приходит где лучше здесть или снаружи
           if (action.card.status === "active") {
-            // const indexCard = state.playersInfo[
-            //   action.player
-            // ].playerDeck.findIndex((card) => card.id === action.card.id)
             const indexCard = getIndexCard(
               state,
               indexActivePlayer,
               action.card
             )
-
-            return {
-              ...state,
-              playersInfo: delCardPLayerPack(
-                state,
-                indexActivePlayer,
-                indexCard,
-                { clickCard: null }
-              ),
-              activeCard: activePlayer.clickCard,
-              // clickCard: null,
-              moveStatus: "useCard",
+            if (action.card.areaUse === "toMyself") {
+              //упорство сократи запись у return
+              if (action.card.name === "Упорство") {
+                return {
+                  ...state,
+                  playersInfo: delCardPLayerPack(
+                    state,
+                    indexActivePlayer,
+                    indexCard,
+                    { clickCard: null }
+                  ),
+                  activeCard: activePlayer.clickCard,
+                  // clickCard: null,
+                  moveStatus: "useCard",
+                }
+              } else {
+                // виски и гляди по сторонам
+                return {
+                  ...state,
+                  playersInfo: delCardPLayerPack(
+                    state,
+                    indexActivePlayer,
+                    indexCard,
+                    { clickCard: null }
+                  ),
+                  activeCard: activePlayer.clickCard,
+                  // clickCard: null,
+                  moveStatus: "trashCard",
+                }
+              }
+            } else {
+              return {
+                ...state,
+                playersInfo: delCardPLayerPack(
+                  state,
+                  indexActivePlayer,
+                  indexCard,
+                  { clickCard: null }
+                ),
+                activeCard: activePlayer.clickCard,
+                // clickCard: null,
+                moveStatus: "useCard",
+              }
             }
           } else {
             alert(`${action.card.name} не может быть активирована`)
@@ -334,41 +363,49 @@ export const optionPlayersReduce = (state, action) => {
     }
     case GAME_STATE_ACTIONS.ACTIVE_TARGET: {
       if (state.moveStatus === "useCard") {
-        if (
+        if (action.activePlayerIndex === action.playerTargetIndex) {
+          if (state.activeCard.areaUse === "toMyself") {
+            //это сработает только о тогда когда будет использована карта упорство и человек начнёт тыкать на карту зачем то
+            return state
+            break
+          }
+        } else if (
           checkPlayerSeatNearby(
             state.playersInfo,
             action.activePlayerIndex,
             action.playerTargetIndex
           )
         ) {
-          console.log(state.activeCard === "Подозрение")
-          console.log(state.activeCard === "Анализ")
           if (
             state.activeCard.name === "Подозрение" ||
             state.activeCard.name === "Анализ"
           ) {
             return {
               ...state,
-              playersInfo: state.playersInfo.map((player, index) => {
-                if (index === action.playerTargetIndex) {
-                  return { ...player, isTarget: "targetPlayer" }
-                }
-                return player
-              }),
-
+              playersInfo: setPlayerTarget(state, action.playerTargetIndex),
               isOpenModal: true,
             }
             break
           } else {
-            return state
+            return {
+              ...state,
+              playersInfo: setPlayerTarget(state, action.playerTargetIndex),
+            }
             break
           }
         } else {
-          alert(
-            `${state.activeCard.name} можно использовать только на соседних игроков`
-          )
-          return state
-          break
+          if (state.activeCard.areaUse === "everyBody") {
+            return {
+              ...state,
+              playersInfo: setPlayerTarget(state, action.playerTargetIndex),
+            }
+          } else {
+            alert(
+              `${state.activeCard.name} нельзя использовать карту на данного игрока`
+            )
+            return state
+            break
+          }
         }
       } else {
         return state

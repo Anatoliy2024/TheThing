@@ -603,6 +603,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 23,
@@ -614,6 +615,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 24,
@@ -625,6 +627,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 25,
@@ -636,6 +639,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 26,
@@ -647,6 +651,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 27,
@@ -658,6 +663,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 28,
@@ -669,6 +675,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 29,
@@ -680,6 +687,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 30,
@@ -691,6 +699,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 31,
@@ -702,6 +711,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 32,
@@ -713,6 +723,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 33,
@@ -724,6 +735,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 34,
@@ -735,6 +747,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 35,
@@ -746,6 +759,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 36,
@@ -757,6 +771,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 37,
@@ -768,6 +783,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 38,
@@ -779,6 +795,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 39,
@@ -790,6 +807,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 40,
@@ -801,6 +819,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 41,
@@ -812,6 +831,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 42,
@@ -823,6 +843,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 43,
@@ -834,6 +855,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 44,
@@ -845,6 +867,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 45,
@@ -856,6 +879,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 46,
@@ -867,6 +891,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 47,
@@ -878,6 +903,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 48,
@@ -889,6 +915,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 49,
@@ -900,6 +927,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "toMyself",
   },
   {
     id: 50,
@@ -911,6 +939,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 51,
@@ -922,6 +951,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 52,
@@ -933,6 +963,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 53,
@@ -944,6 +975,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 54,
@@ -955,6 +987,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "nearby",
   },
   {
     id: 55,
@@ -966,6 +999,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 56,
@@ -977,6 +1011,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 57,
@@ -988,6 +1023,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 58,
@@ -999,6 +1035,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 59,
@@ -1010,6 +1047,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: false,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 60,
@@ -1021,6 +1059,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: true,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 61,
@@ -1032,6 +1071,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: true,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 62,
@@ -1043,6 +1083,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: true,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 63,
@@ -1054,6 +1095,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: true,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 64,
@@ -1065,6 +1107,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: true,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 65,
@@ -1076,6 +1119,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: true,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 66,
@@ -1087,6 +1131,7 @@ export const CARDS = [
     shirt: cardSrc110,
     endMove: true,
     status: "active",
+    areaUse: "everyBody",
   },
   {
     id: 67,
