@@ -39,7 +39,7 @@ export function Game() {
         superCard: "Без супер карт",
         mode: "Классика",
       },
-      moveStatus: "getCard", //getCard, selectCard,useCard,trashCard,exchangeCard
+      moveStatus: "getCard", //getCard, selectCard(selectCard/activeCard),useCard,useBlockCard,trashCard,exchangeCard
       wayGame: "right",
       countStep: 0,
       // clickCard: null,

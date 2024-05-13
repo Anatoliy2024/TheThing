@@ -1,3 +1,6 @@
+import door from "../image/avatar/door.jpg"
+import { getNextPlayerIndex } from "./next-player"
+
 export function delCard(state, actionCard) {
   return state.pack.filter((card) => card.id !== actionCard.id)
 }
@@ -111,6 +114,17 @@ export function getActivePlayerIndex(state) {
   return activePlayerIndex
 }
 
+export function getTargetPlayerIndex(state) {
+  const targetPlayerIndex = state.playersInfo.findIndex(
+    (player) => player.isTarget === "targetPlayer"
+  )
+  if (targetPlayerIndex === -1) {
+    return null
+  }
+  // console.log(activePlayerIndex)
+  return targetPlayerIndex
+}
+
 export function changeClickCard(state, playerIndex, card) {
   return [
     ...state.playersInfo.slice(0, playerIndex),
@@ -123,8 +137,17 @@ export function changeClickCard(state, playerIndex, card) {
 }
 
 export function setPlayerStatus(state, playerIndex, status = {}) {
-  console.log("key", status)
+  const indexTargetPlayer = getTargetPlayerIndex(state)
 
+  return state.playersInfo.map((player, index) => {
+    if (index === playerIndex) {
+      return { ...player, ...status }
+    } else if (index === indexTargetPlayer) {
+      return { ...player, isTarget: "noTarget" }
+    } else {
+      return player
+    }
+  })
   return [
     ...state.playersInfo.slice(0, playerIndex),
     {
@@ -297,6 +320,7 @@ export function exchangeCardPlayer(
         clickCard: null,
         exchangeCard: null,
         isPlayerActive: true,
+        isTarget: "noTarget",
       }
     }
     return player
@@ -315,8 +339,31 @@ export function checkPlayerSeatNearby(arrayPlayers, index1, index2) {
   // Проверяем, являются ли игроки соседями
   return Math.abs(index1 - index2) === 1
 }
+function addBorderDoor(state, index) {
+  return state.playersInfo.splice(index, 0, {
+    id: Math.random(),
+    name: "Boarder door",
+    avatar: door,
+    player: "Door",
+  })
+}
+export function setPlayerTargetAndUseCard(state, playerTargetIndex) {
+  const activePlayerIndex = state.playersInfo.findIndex(
+    (player) => player.isPlayerActive
+  )
 
-export function setPlayerTarget(state, playerTargetIndex) {
+  const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+  const activeCard = state.activeCard
+
+  if (activeCard.name === "Заколоченная дверь") {
+    if (playerTargetIndex === nextPlayerIndex) {
+      addBorderDoor(state, playerTargetIndex)
+    } else {
+      addBorderDoor(state, activePlayerIndex)
+    }
+
+    return state.playersInfo
+  }
   return state.playersInfo.map((player, index) => {
     if (index === playerTargetIndex) {
       return { ...player, isTarget: "targetPlayer" }

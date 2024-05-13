@@ -28,7 +28,13 @@ export function GameMap({ optionPlayers, dispatch }) {
                   key={player.id}
                   className={clsx(
                     "absolute text-lime-500 flex flex-col  cursor-pointer  max-w-[100px] px-2 py-2 rounded-2xl overflow-hidden  ",
-                    player.isPlayerActive ? "bg-lime-800 z-20" : ""
+                    player.isPlayerActive ? "bg-lime-800 z-20" : "",
+                    player.isTarget === "targetPlayer"
+                      ? "bg-rose-900 z-20"
+                      : "",
+                    player.isTarget === "nextPlayer"
+                      ? "bg-lime-800/40 z-20"
+                      : ""
                   )}
                   style={playerStyle}
                   onClick={() =>

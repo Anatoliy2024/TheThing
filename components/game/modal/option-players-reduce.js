@@ -11,7 +11,8 @@ import {
   setPlayerIsTarget,
   setPlayerStatus,
   checkPlayerSeatNearby,
-  setPlayerTarget,
+  setPlayerTargetAndUseCard,
+  getTargetPlayerIndex,
 } from "./function-for-reduce"
 import { shuffleArray } from "./get-card"
 import { getNextPlayerIndex } from "./next-player"
@@ -102,16 +103,19 @@ export const optionPlayersReduce = (state, action) => {
       break
     }
     case GAME_STATE_ACTIONS.CLICK_CARD: {
-      const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+      const indexNextPlayer = getNextPlayerIndex(state, state.wayGame)
       const indexActivePlayer = getActivePlayerIndex(state)
+      const indexTargetPlayer = getTargetPlayerIndex(state)
 
       const checkOption =
         state.moveStatus === "selectCard" ||
         (state.moveStatus === "exchangeCard" &&
           ((action.playerIndex === indexActivePlayer &&
             state.playersInfo[action.playerIndex].exchangeCard === null) ||
-            (action.playerIndex === nextPlayerIndex &&
-              state.playersInfo[nextPlayerIndex].id === null)))
+            (action.playerIndex === indexNextPlayer &&
+              state.playersInfo[indexNextPlayer].exchangeCard === null))) ||
+        (state.moveStatus === "useBlockCard" &&
+          action.playerIndex === indexTargetPlayer)
 
       if (checkOption) {
         const indexActivePlayer = action.playerIndex // получение из dicpatch
@@ -327,14 +331,19 @@ export const optionPlayersReduce = (state, action) => {
         /** Проверка на то что есть ли у обоих игроков карты в clickCard  если есть тогда обмен сразу  или внутри функции проверить и обменяться? возможно лучше внутри после того как задал ехчендж первому игроку проверь есть ли ехчендж у второго, если есть обмен
          * потом на кнопу создай псевдо отдачу каты следующим игроком а затем будет меняться активный игрок и начинается следущий ход
          */
+      } else if (state.moveStatus === "useBlockCard") {
+        //добавить логику защитных карт
+        console.log("Стадия блокирования карты")
+        return { ...state, moveStatus: "trashCard" }
+        break
       }
       // console.log("конец активации")
       return state
       break
     }
     case GAME_STATE_ACTIONS.USE_CARD: {
-      console.log("Зашёл в useCard")
       if (state.moveStatus === "useCard") {
+        console.log("сработал use карт")
         return { ...state, moveStatus: "trashCard" }
       } else if ((state.moveStatus = "exchangeCard")) {
         console.log("Next игрок положил карту")
@@ -368,6 +377,9 @@ export const optionPlayersReduce = (state, action) => {
             //это сработает только о тогда когда будет использована карта упорство и человек начнёт тыкать на карту зачем то
             return state
             break
+          } else {
+            return state
+            break
           }
         } else if (
           checkPlayerSeatNearby(
@@ -382,14 +394,22 @@ export const optionPlayersReduce = (state, action) => {
           ) {
             return {
               ...state,
-              playersInfo: setPlayerTarget(state, action.playerTargetIndex),
+              playersInfo: setPlayerTargetAndUseCard(
+                state,
+                action.playerTargetIndex
+              ),
               isOpenModal: true,
             }
             break
           } else {
+            //все карты которые используются на соседнего игрока будут в setPlayerTargetAndUseCard
             return {
               ...state,
-              playersInfo: setPlayerTarget(state, action.playerTargetIndex),
+              playersInfo: setPlayerTargetAndUseCard(
+                state,
+                action.playerTargetIndex
+              ),
+              moveStatus: "useBlockCard",
             }
             break
           }
@@ -397,11 +417,15 @@ export const optionPlayersReduce = (state, action) => {
           if (state.activeCard.areaUse === "everyBody") {
             return {
               ...state,
-              playersInfo: setPlayerTarget(state, action.playerTargetIndex),
+              playersInfo: setPlayerTargetAndUseCard(
+                state,
+                action.playerTargetIndex
+              ),
+              moveStatus: "useBlockCard",
             }
           } else {
             alert(
-              `${state.activeCard.name} нельзя использовать карту на данного игрока`
+              `Карту ${state.activeCard.name} нельзя использовать на данного игрока`
             )
             return state
             break
@@ -412,7 +436,6 @@ export const optionPlayersReduce = (state, action) => {
         break
       }
     }
-
     case GAME_STATE_ACTIONS.MODAL_CLOSE: {
       if (state.moveStatus === "useCard") {
         return { ...state, isOpenModal: false, moveStatus: "trashCard" }
@@ -451,8 +474,7 @@ export const optionPlayersReduce = (state, action) => {
         // const indexActivePlayer = action.playerIndex // получение из dicpatch
         // const activePlayer = state.playersInfo[indexActivePlayer]
         const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
-        console.log(state.playersInfo[nextPlayerIndex])
-        console.log("Trash")
+
         return {
           ...state,
           activeCard: null,

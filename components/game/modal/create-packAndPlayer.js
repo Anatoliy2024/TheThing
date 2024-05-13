@@ -18,7 +18,7 @@ export function createPlayerInfo(count) {
       playerDeck: [],
       isPlayerActive: false, //кто ходит в данный момент
       statusPlayer: "default", // default,death,bash,
-      isTarget: "noTarget", //default,nextPlayer,targetPlayer,
+      isTarget: "noTarget", //noTarget,nextPlayer,targetPlayer,
       clickCard: null,
       exchangeCard: null,
       // activeCard: null,
