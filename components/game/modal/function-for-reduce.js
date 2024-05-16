@@ -1,5 +1,5 @@
 import door from "../image/avatar/door.jpg"
-import { getNextPlayerIndex } from "./next-player"
+import { getNextPlayerIndex, nextPLayerIndexChange } from "./next-player"
 
 export function delCard(state, actionCard) {
   return state.pack.filter((card) => card.id !== actionCard.id)
@@ -148,14 +148,32 @@ export function setPlayerStatus(state, playerIndex, status = {}) {
       return player
     }
   })
-  return [
-    ...state.playersInfo.slice(0, playerIndex),
-    {
-      ...state.playersInfo[playerIndex],
-      ...status,
-    },
-    ...state.playersInfo.slice(playerIndex + 1),
-  ]
+}
+
+export function setPlayerActiveForDoor(
+  state,
+  nextPlayerIndex,
+  indexActionPlayer,
+  card
+) {
+  const newNextPlayerIndex = nextPLayerIndexChange(
+    indexActionPlayer,
+    nextPlayerIndex
+  )
+
+  return {
+    ...state,
+    activeCard: null,
+    trash: [...state.trash, card],
+    moveStatus: "getCard",
+    playersInfo: state.playersInfo.map((player, index) => {
+      if (index === newNextPlayerIndex) {
+        return { ...player, isPlayerActive: true }
+      } else {
+        return { ...player, isPlayerActive: false }
+      }
+    }),
+  }
 }
 
 export function setExchangeCard(state, indexActivePlayer, actionCard) {
@@ -327,18 +345,26 @@ export function exchangeCardPlayer(
   })
 }
 
-export function checkPlayerSeatNearby(arrayPlayers, index1, index2) {
+export function checkPlayerSeatNearby(
+  arrayPlayers,
+  indexActivePlayer,
+  indexTargetPlayer
+) {
   // Если один из игроков - первый, а другой - последний, они считаются рядом
+  //>>>>>>>>>>>>>>>>>проверка на закрытую дверь и карантин должна быть тоут<<<<<<<<<<<<<<<<<<<<<<<<<
+
   if (
-    (index1 === 0 && index2 === arrayPlayers.length - 1) ||
-    (index2 === 0 && index1 === arrayPlayers.length - 1)
+    (indexActivePlayer === 0 &&
+      indexTargetPlayer === arrayPlayers.length - 1) ||
+    (indexTargetPlayer === 0 && indexActivePlayer === arrayPlayers.length - 1)
   ) {
     return true
   }
 
   // Проверяем, являются ли игроки соседями
-  return Math.abs(index1 - index2) === 1
+  return Math.abs(indexActivePlayer - indexTargetPlayer) === 1
 }
+
 function addBorderDoor(state, index) {
   return state.playersInfo.splice(index, 0, {
     id: Math.random(),

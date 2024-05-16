@@ -13,9 +13,10 @@ import {
   checkPlayerSeatNearby,
   setPlayerTargetAndUseCard,
   getTargetPlayerIndex,
+  setPlayerActiveForDoor,
 } from "./function-for-reduce"
 import { shuffleArray } from "./get-card"
-import { getNextPlayerIndex } from "./next-player"
+import { getNextPlayerIndex, nextPLayerIndexChange } from "./next-player"
 
 export const GAME_STATE_ACTIONS = {
   STATUS: "status",
@@ -222,6 +223,7 @@ export const optionPlayersReduce = (state, action) => {
                   // clickCard: null,
                   moveStatus: "useCard",
                 }
+                break
               } else {
                 // виски и гляди по сторонам
                 return {
@@ -236,6 +238,44 @@ export const optionPlayersReduce = (state, action) => {
                   // clickCard: null,
                   moveStatus: "trashCard",
                 }
+                break
+              }
+            } else if (action.card.areaUse === "nearby") {
+              if (action.card.name === "Топор") {
+                const activePlayer = state.playersInfo[indexActivePlayer]
+                const nextPlayer =
+                  state.playersInfo[indexActivePlayer + 1] ??
+                  state.playersInfo[0]
+                const previousPlayer =
+                  state.playersInfo[indexActivePlayer - 1] ??
+                  state.playersInfo[state.playersInfo.length - 1]
+                if (
+                  nextPlayer.name === "Boarder door" ||
+                  previousPlayer.name === "Boarder door" ||
+                  nextPlayer?.statusPlayer === "quarantine" ||
+                  previousPlayer?.statusPlayer === "quarantine"
+                ) {
+                  return {
+                    ...state,
+                    playersInfo: delCardPLayerPack(
+                      state,
+                      indexActivePlayer,
+                      indexCard,
+                      { clickCard: null }
+                    ),
+                    activeCard: activePlayer.clickCard,
+                    // clickCard: null,
+                    moveStatus: "useCard",
+                  }
+                  break
+                } else {
+                  alert("Невозможно использовать данную карту")
+                  return state
+                  break
+                }
+              } else {
+                return state
+                break
               }
             } else {
               return {
@@ -250,14 +290,17 @@ export const optionPlayersReduce = (state, action) => {
                 // clickCard: null,
                 moveStatus: "useCard",
               }
+              break
             }
           } else {
             alert(`${action.card.name} не может быть активирована`)
             return state
+            break
           }
         } else {
           alert("Карта не выбрана")
           return state
+          break
         }
       } else if (state.moveStatus === "exchangeCard") {
         const indexActivePlayer = action.playerIndex // получение из dicpatch
@@ -272,7 +315,7 @@ export const optionPlayersReduce = (state, action) => {
           activePlayer.clickCard.id !== activePlayer.exchangeCard?.id
         ) {
           // console.log(action.card)
-          const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+          // const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
           return playersCheckExchangeCard(
             state,
             indexActivePlayer,
@@ -389,29 +432,96 @@ export const optionPlayersReduce = (state, action) => {
           )
         ) {
           if (
-            state.activeCard.name === "Подозрение" ||
-            state.activeCard.name === "Анализ"
+            state.playersInfo[action.playerTargetIndex].name !==
+              "Boarder door" &&
+            state.playersInfo[action.playerTargetIndex].statusPlayer !==
+              "quarantine"
           ) {
-            return {
-              ...state,
-              playersInfo: setPlayerTargetAndUseCard(
-                state,
-                action.playerTargetIndex
-              ),
-              isOpenModal: true,
+            if (
+              state.activeCard.name === "Подозрение" ||
+              state.activeCard.name === "Анализ"
+            ) {
+              return {
+                ...state,
+                playersInfo: setPlayerTargetAndUseCard(
+                  state,
+                  action.playerTargetIndex
+                ),
+                isOpenModal: true,
+              }
+              break
+            } else if (state.activeCard.name === "Топор") {
+              alert(
+                `Топор нельзя использовать на ${
+                  state.playersInfo[action.playerTargetIndex].name
+                }`
+              )
+              return state
+              break
+            } else {
+              //все карты которые используются на соседнего игрока будут в setPlayerTargetAndUseCard
+              return {
+                ...state,
+                playersInfo: setPlayerTargetAndUseCard(
+                  state,
+                  action.playerTargetIndex
+                ),
+                moveStatus: "useBlockCard",
+              }
+              break
             }
-            break
           } else {
-            //все карты которые используются на соседнего игрока будут в setPlayerTargetAndUseCard
-            return {
-              ...state,
-              playersInfo: setPlayerTargetAndUseCard(
-                state,
-                action.playerTargetIndex
-              ),
-              moveStatus: "useBlockCard",
+            if (state.activeCard.name === "Топор") {
+              if (
+                state.playersInfo[action.playerTargetIndex].name ===
+                "Boarder door"
+              ) {
+                return {
+                  ...state,
+                  playersInfo: state.playersInfo.filter(
+                    (_, index) => index !== action.playerTargetIndex
+                  ),
+                  moveStatus: "exchangeCard",
+                }
+                break
+              } else if (
+                state.playersInfo[action.playerTargetIndex].statusPlayer ===
+                "quarantine"
+              ) {
+                return {
+                  ...state,
+                  playersInfo: state.playersInfo.map((player, index) => {
+                    if (index === action.playerTargetIndex) {
+                      //
+                      return {
+                        ...player,
+                        statusPlayer: "default",
+                        // условно пока для этого нет логики
+                        countQuarantine: 0,
+                      }
+                    } else {
+                      return player
+                    }
+                  }),
+                  moveStatus: "exchangeCard",
+                }
+                break
+              } else {
+                alert(
+                  `Нельзя использовать топор на ${
+                    state.playersInfo[action.playerTargetIndex].name
+                  }`
+                )
+                return state
+                break
+              }
+            } else {
+              alert(
+                `Нельзя использовать ${state.activeCard} на заколоченную дверь`
+              )
+              return state
+              break
             }
-            break
           }
         } else {
           if (state.activeCard.areaUse === "everyBody") {
@@ -451,6 +561,15 @@ export const optionPlayersReduce = (state, action) => {
         if (state.playersInfo[action.player].clickCard !== null) {
           const indexCard = getIndexCard(state, action.player)
           const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+          if (state.playersInfo[nextPlayerIndex].name === "Boarder door") {
+            console.log(state.playersInfo)
+            return setPlayerActiveForDoor(
+              state,
+              nextPlayerIndex,
+              action.player,
+              state.playersInfo[action.player].clickCard
+            )
+          }
           return {
             ...state,
             trash: [...state.trash, state.playersInfo[action.player].clickCard],
@@ -475,6 +594,15 @@ export const optionPlayersReduce = (state, action) => {
         // const activePlayer = state.playersInfo[indexActivePlayer]
         const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
 
+        if (state.playersInfo[nextPlayerIndex].name === "Boarder door") {
+          console.log(state.playersInfo)
+          return setPlayerActiveForDoor(
+            state,
+            nextPlayerIndex,
+            action.player,
+            state.activeCard
+          )
+        }
         return {
           ...state,
           activeCard: null,

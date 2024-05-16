@@ -28,7 +28,7 @@ export function Game() {
   const [optionPlayers, dispatch] = useReducer(
     optionPlayersReduce,
     {
-      pack: useMemo(() => createPack(PLAYER_COUNT), [gameStart, PLAYER_COUNT]),
+      pack: useMemo(() => createPack(PLAYER_COUNT), [gameStart]),
       activeCard: null,
       protectionCard: null,
       trash: [],
@@ -44,10 +44,7 @@ export function Game() {
       countStep: 0,
       // clickCard: null,
       //имя игрока, его роль(заражён,выживший, нечто), время на ход, ео карты, isActivePlayer:true или false , status:bash,default and death
-      playersInfo: useMemo(
-        () => createPlayerInfo(PLAYER_COUNT),
-        [gameStart, PLAYER_COUNT]
-      ),
+      playersInfo: useMemo(() => createPlayerInfo(PLAYER_COUNT), [gameStart]),
       isOpenModal: false,
     },
     initialOptionPlayers
