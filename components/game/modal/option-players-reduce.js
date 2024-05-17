@@ -1,3 +1,4 @@
+import { activateCardAxe } from "./card-activate/activate-card-axe"
 import {
   changeClickCard,
   delCard,
@@ -242,37 +243,8 @@ export const optionPlayersReduce = (state, action) => {
               }
             } else if (action.card.areaUse === "nearby") {
               if (action.card.name === "Топор") {
-                const activePlayer = state.playersInfo[indexActivePlayer]
-                const nextPlayer =
-                  state.playersInfo[indexActivePlayer + 1] ??
-                  state.playersInfo[0]
-                const previousPlayer =
-                  state.playersInfo[indexActivePlayer - 1] ??
-                  state.playersInfo[state.playersInfo.length - 1]
-                if (
-                  nextPlayer.name === "Boarder door" ||
-                  previousPlayer.name === "Boarder door" ||
-                  nextPlayer?.statusPlayer === "quarantine" ||
-                  previousPlayer?.statusPlayer === "quarantine"
-                ) {
-                  return {
-                    ...state,
-                    playersInfo: delCardPLayerPack(
-                      state,
-                      indexActivePlayer,
-                      indexCard,
-                      { clickCard: null }
-                    ),
-                    activeCard: activePlayer.clickCard,
-                    // clickCard: null,
-                    moveStatus: "useCard",
-                  }
-                  break
-                } else {
-                  alert("Невозможно использовать данную карту")
-                  return state
-                  break
-                }
+                return activateCardAxe(state, indexActivePlayer, indexCard)
+                break
               } else {
                 return state
                 break
@@ -416,7 +388,7 @@ export const optionPlayersReduce = (state, action) => {
     case GAME_STATE_ACTIONS.ACTIVE_TARGET: {
       if (state.moveStatus === "useCard") {
         if (action.activePlayerIndex === action.playerTargetIndex) {
-          if (state.activeCard.areaUse === "toMyself") {
+          if (state.activeCard.name === "Топор") {
             //это сработает только о тогда когда будет использована карта упорство и человек начнёт тыкать на карту зачем то
             return state
             break
