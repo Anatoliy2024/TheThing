@@ -28,3 +28,17 @@ export function activateCardAxe(state, indexActivePlayer, indexCard) {
     return state
   }
 }
+
+export function usedCardAxe(state, activePlayerIndex) {
+  return {
+    ...state,
+    playersInfo: state.playersInfo.map((player, index) => {
+      if (index === activePlayerIndex) {
+        return { ...player, statusPlayer: "default", countQuarantine: 0 }
+      } else {
+        return player
+      }
+    }),
+    moveStatus: "trashCard",
+  }
+}

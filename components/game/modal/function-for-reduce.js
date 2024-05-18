@@ -1,5 +1,4 @@
-import door from "../image/avatar/door.jpg"
-import { getNextPlayerIndex, nextPLayerIndexChange } from "./next-player"
+import { nextPLayerIndexChange } from "./next-player"
 
 export function delCard(state, actionCard) {
   return state.pack.filter((card) => card.id !== actionCard.id)
@@ -157,6 +156,7 @@ export function setPlayerActiveForDoor(
   card
 ) {
   const newNextPlayerIndex = nextPLayerIndexChange(
+    state,
     indexActionPlayer,
     nextPlayerIndex
   )
@@ -363,37 +363,4 @@ export function checkPlayerSeatNearby(
 
   // Проверяем, являются ли игроки соседями
   return Math.abs(indexActivePlayer - indexTargetPlayer) === 1
-}
-
-function addBorderDoor(state, index) {
-  return state.playersInfo.splice(index, 0, {
-    id: Math.random(),
-    name: "Boarder door",
-    avatar: door,
-    player: "Door",
-  })
-}
-export function setPlayerTargetAndUseCard(state, playerTargetIndex) {
-  const activePlayerIndex = state.playersInfo.findIndex(
-    (player) => player.isPlayerActive
-  )
-
-  const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
-  const activeCard = state.activeCard
-
-  if (activeCard.name === "Заколоченная дверь") {
-    if (playerTargetIndex === nextPlayerIndex) {
-      addBorderDoor(state, playerTargetIndex)
-    } else {
-      addBorderDoor(state, activePlayerIndex)
-    }
-
-    return state.playersInfo
-  }
-  return state.playersInfo.map((player, index) => {
-    if (index === playerTargetIndex) {
-      return { ...player, isTarget: "targetPlayer" }
-    }
-    return player
-  })
 }

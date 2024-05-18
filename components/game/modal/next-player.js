@@ -15,11 +15,18 @@ export function getNextPlayerIndex(state, way) {
   return nextPlayerIndex
 }
 
-export function nextPLayerIndexChange(activePlayerIndex, nextPlayerIndex) {
-  console.log(activePlayerIndex, nextPlayerIndex)
+export function nextPLayerIndexChange(
+  state,
+  activePlayerIndex,
+  nextPlayerIndex
+) {
+  const totalPlayers = state.playersInfo.length
+
   if (activePlayerIndex < nextPlayerIndex) {
-    return nextPlayerIndex + 1
+    // Уменьшаем индекс, и если он меньше нуля, то "заворачиваем" его к последнему элементу
+    return (nextPlayerIndex - 1 + totalPlayers) % totalPlayers
   } else {
-    return nextPlayerIndex - 1
+    // Увеличиваем индекс, и если он превышает длину массива, то "заворачиваем" его к первому элементу
+    return (nextPlayerIndex + 1) % totalPlayers
   }
 }

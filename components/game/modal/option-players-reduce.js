@@ -1,4 +1,5 @@
-import { activateCardAxe } from "./card-activate/activate-card-axe"
+import { activateCardAxe, usedCardAxe } from "./card-activate/activate-card-axe"
+import { setPlayerTargetAndUseCard } from "./card-activate/activate-other-card"
 import {
   changeClickCard,
   delCard,
@@ -12,12 +13,11 @@ import {
   setPlayerIsTarget,
   setPlayerStatus,
   checkPlayerSeatNearby,
-  setPlayerTargetAndUseCard,
   getTargetPlayerIndex,
   setPlayerActiveForDoor,
 } from "./function-for-reduce"
 import { shuffleArray } from "./get-card"
-import { getNextPlayerIndex, nextPLayerIndexChange } from "./next-player"
+import { getNextPlayerIndex } from "./next-player"
 
 export const GAME_STATE_ACTIONS = {
   STATUS: "status",
@@ -209,6 +209,7 @@ export const optionPlayersReduce = (state, action) => {
               indexActivePlayer,
               action.card
             )
+
             if (action.card.areaUse === "toMyself") {
               //упорство сократи запись у return
               if (action.card.name === "Упорство") {
@@ -242,11 +243,24 @@ export const optionPlayersReduce = (state, action) => {
                 break
               }
             } else if (action.card.areaUse === "nearby") {
+              console.log("Второй уровень")
               if (action.card.name === "Топор") {
                 return activateCardAxe(state, indexActivePlayer, indexCard)
                 break
               } else {
-                return state
+                /**Добавил весь return  */
+                return {
+                  ...state,
+                  playersInfo: delCardPLayerPack(
+                    state,
+                    indexActivePlayer,
+                    indexCard,
+                    { clickCard: null }
+                  ),
+                  activeCard: activePlayer.clickCard,
+                  // clickCard: null,
+                  moveStatus: "useCard",
+                }
                 break
               }
             } else {
@@ -294,10 +308,13 @@ export const optionPlayersReduce = (state, action) => {
             nextPlayerIndex,
             action.card
           )
+          break
         } else if (
           nextPlayer.clickCard !== null &&
           nextPlayer.clickCard.id !== nextPlayer.exchangeCard?.id
         ) {
+          return state
+          break
           // console.log(action.card)
           //вроде так должно быть но это неточно, не проверить пока не будет сервера
           /* Если будет сервер нужно включить чтобы у next игрока работала проверка на карту, пришлось отключить из за того что ломается всё я искусственно добавляю все данные */
@@ -334,6 +351,7 @@ export const optionPlayersReduce = (state, action) => {
             moveStatus: "getCard",
             countStep: state.countStep + 1,
           }
+          break
         }
         // console.log(
         //   "Карты активного игрока",
@@ -385,13 +403,22 @@ export const optionPlayersReduce = (state, action) => {
       } else state
       break
     }
+
     case GAME_STATE_ACTIONS.ACTIVE_TARGET: {
       if (state.moveStatus === "useCard") {
         if (action.activePlayerIndex === action.playerTargetIndex) {
           if (state.activeCard.name === "Топор") {
+            if (
+              state.playersInfo[action.playerTargetIndex].statusPlayer ===
+              "quarantine"
+            ) {
+              return usedCardAxe(state, action.playerTargetIndex)
+              break
+            } else {
+              return state
+              break
+            }
             //это сработает только о тогда когда будет использована карта упорство и человек начнёт тыкать на карту зачем то
-            return state
-            break
           } else {
             return state
             break
@@ -413,14 +440,7 @@ export const optionPlayersReduce = (state, action) => {
               state.activeCard.name === "Подозрение" ||
               state.activeCard.name === "Анализ"
             ) {
-              return {
-                ...state,
-                playersInfo: setPlayerTargetAndUseCard(
-                  state,
-                  action.playerTargetIndex
-                ),
-                isOpenModal: true,
-              }
+              return setPlayerTargetAndUseCard(state, action.playerTargetIndex)
               break
             } else if (state.activeCard.name === "Топор") {
               alert(
@@ -430,16 +450,14 @@ export const optionPlayersReduce = (state, action) => {
               )
               return state
               break
-            } else {
+            }
+            //  else if ((a = a)) {
+            //   return state
+            //   break
+            // }
+            else {
               //все карты которые используются на соседнего игрока будут в setPlayerTargetAndUseCard
-              return {
-                ...state,
-                playersInfo: setPlayerTargetAndUseCard(
-                  state,
-                  action.playerTargetIndex
-                ),
-                moveStatus: "useBlockCard",
-              }
+              return setPlayerTargetAndUseCard(state, action.playerTargetIndex)
               break
             }
           } else {
@@ -489,7 +507,7 @@ export const optionPlayersReduce = (state, action) => {
               }
             } else {
               alert(
-                `Нельзя использовать ${state.activeCard} на заколоченную дверь`
+                `Нельзя использовать ${state.activeCard.name} на заколоченную дверь`
               )
               return state
               break
@@ -497,14 +515,10 @@ export const optionPlayersReduce = (state, action) => {
           }
         } else {
           if (state.activeCard.areaUse === "everyBody") {
-            return {
-              ...state,
-              playersInfo: setPlayerTargetAndUseCard(
-                state,
-                action.playerTargetIndex
-              ),
-              moveStatus: "useBlockCard",
-            }
+            // 4 карты соблазн, сматывай удочки, некрономикон и лавкрафт
+            return setPlayerTargetAndUseCard(state, action.playerTargetIndex)
+
+            break
           } else {
             alert(
               `Карту ${state.activeCard.name} нельзя использовать на данного игрока`
@@ -574,20 +588,23 @@ export const optionPlayersReduce = (state, action) => {
             action.player,
             state.activeCard
           )
-        }
-        return {
-          ...state,
-          activeCard: null,
-          trash: [...state.trash, state.activeCard],
-          moveStatus: "exchangeCard",
-          playersInfo: setPlayerStatus(state, nextPlayerIndex, {
-            isTarget: "nextPlayer",
-          }),
+          break
+        } else {
+          return {
+            ...state,
+            activeCard: null,
+            trash: [...state.trash, state.activeCard],
+            moveStatus: "exchangeCard",
+            playersInfo: setPlayerStatus(state, nextPlayerIndex, {
+              isTarget: "nextPlayer",
+            }),
+          }
+          break
         }
       } else {
         return state
+        break
       }
-      break
     }
 
     default: {

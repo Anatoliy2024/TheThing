@@ -34,6 +34,7 @@ export function GameDeck({ optionPlayers, dispatch }) {
       activeCard === activePlayer.exchangeCard &&
       activeCard !== null)
 
+  console.log(playersInfo[activePlayerIndex])
   useEffect(() => {
     if (
       playersInfo[activePlayerIndex].exchangeCard !== null &&
