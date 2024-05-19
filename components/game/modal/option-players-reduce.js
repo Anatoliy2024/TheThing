@@ -1,5 +1,10 @@
-import { activateCardAxe, usedCardAxe } from "./card-activate/activate-card-axe"
+import {
+  activateCardAxe,
+  usedCardAxe,
+  usedCardAxeTomyself,
+} from "./card-activate/activate-card-axe"
 import { setPlayerTargetAndUseCard } from "./card-activate/activate-other-card"
+import { useCardToMyself } from "./card-activate/use-card-to-myself"
 import {
   changeClickCard,
   delCard,
@@ -105,7 +110,7 @@ export const optionPlayersReduce = (state, action) => {
       break
     }
     case GAME_STATE_ACTIONS.CLICK_CARD: {
-      const indexNextPlayer = getNextPlayerIndex(state, state.wayGame)
+      const indexNextPlayer = getNextPlayerIndex(state)
       const indexActivePlayer = getActivePlayerIndex(state)
       const indexTargetPlayer = getTargetPlayerIndex(state)
 
@@ -211,37 +216,33 @@ export const optionPlayersReduce = (state, action) => {
             )
 
             if (action.card.areaUse === "toMyself") {
-              //упорство сократи запись у return
-              if (action.card.name === "Упорство") {
-                return {
-                  ...state,
-                  playersInfo: delCardPLayerPack(
-                    state,
-                    indexActivePlayer,
-                    indexCard,
-                    { clickCard: null }
-                  ),
-                  activeCard: activePlayer.clickCard,
-                  // clickCard: null,
-                  moveStatus: "useCard",
-                }
-                break
-              } else {
-                // виски и гляди по сторонам
-                return {
-                  ...state,
-                  playersInfo: delCardPLayerPack(
-                    state,
-                    indexActivePlayer,
-                    indexCard,
-                    { clickCard: null }
-                  ),
-                  activeCard: activePlayer.clickCard,
-                  // clickCard: null,
-                  moveStatus: "trashCard",
-                }
-                break
-              }
+              return useCardToMyself(
+                state,
+                indexActivePlayer,
+                indexCard,
+                activePlayer.clickCard
+              )
+              break
+              // //упорство сократи запись у return
+              // if (action.card.name === "Упорство") {
+              //   return useCardToMyself(
+              //     state,
+              //     indexActivePlayer,
+              //     indexCard,
+              //     activePlayer.clickCard
+              //   )
+              //   break
+              // } else {
+              //   // виски и гляди по сторонам
+              //   return useCardToMyself(
+              //     state,
+              //     indexActivePlayer,
+              //     indexCard,
+              //     activePlayer.clickCard
+              //   )
+
+              //   break
+              // }
             } else if (action.card.areaUse === "nearby") {
               console.log("Второй уровень")
               if (action.card.name === "Топор") {
@@ -291,7 +292,7 @@ export const optionPlayersReduce = (state, action) => {
       } else if (state.moveStatus === "exchangeCard") {
         const indexActivePlayer = action.playerIndex // получение из dicpatch
         const activePlayer = state.playersInfo[indexActivePlayer]
-        const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+        const nextPlayerIndex = getNextPlayerIndex(state)
         const nextPlayer = state.playersInfo[nextPlayerIndex]
 
         // console.log("ActiveCard")
@@ -301,7 +302,7 @@ export const optionPlayersReduce = (state, action) => {
           activePlayer.clickCard.id !== activePlayer.exchangeCard?.id
         ) {
           // console.log(action.card)
-          // const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+          // const nextPlayerIndex = getNextPlayerIndex(state)
           return playersCheckExchangeCard(
             state,
             indexActivePlayer,
@@ -318,7 +319,7 @@ export const optionPlayersReduce = (state, action) => {
           // console.log(action.card)
           //вроде так должно быть но это неточно, не проверить пока не будет сервера
           /* Если будет сервер нужно включить чтобы у next игрока работала проверка на карту, пришлось отключить из за того что ломается всё я искусственно добавляю все данные */
-          // const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+          // const nextPlayerIndex = getNextPlayerIndex(state)
           // return playersCheckExchangeCard(
           //   state,
           //   nextPlayerIndex,
@@ -380,7 +381,7 @@ export const optionPlayersReduce = (state, action) => {
         return { ...state, moveStatus: "trashCard" }
       } else if ((state.moveStatus = "exchangeCard")) {
         console.log("Next игрок положил карту")
-        const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+        const nextPlayerIndex = getNextPlayerIndex(state)
         const randomIndex = Math.floor(Math.random() * 4)
 
         const randomCard =
@@ -412,7 +413,7 @@ export const optionPlayersReduce = (state, action) => {
               state.playersInfo[action.playerTargetIndex].statusPlayer ===
               "quarantine"
             ) {
-              return usedCardAxe(state, action.playerTargetIndex)
+              return usedCardAxeTomyself(state, action.playerTargetIndex)
               break
             } else {
               return state
@@ -462,49 +463,51 @@ export const optionPlayersReduce = (state, action) => {
             }
           } else {
             if (state.activeCard.name === "Топор") {
-              if (
-                state.playersInfo[action.playerTargetIndex].name ===
-                "Boarder door"
-              ) {
-                return {
-                  ...state,
-                  playersInfo: state.playersInfo.filter(
-                    (_, index) => index !== action.playerTargetIndex
-                  ),
-                  moveStatus: "exchangeCard",
-                }
-                break
-              } else if (
-                state.playersInfo[action.playerTargetIndex].statusPlayer ===
-                "quarantine"
-              ) {
-                return {
-                  ...state,
-                  playersInfo: state.playersInfo.map((player, index) => {
-                    if (index === action.playerTargetIndex) {
-                      //
-                      return {
-                        ...player,
-                        statusPlayer: "default",
-                        // условно пока для этого нет логики
-                        countQuarantine: 0,
-                      }
-                    } else {
-                      return player
-                    }
-                  }),
-                  moveStatus: "exchangeCard",
-                }
-                break
-              } else {
-                alert(
-                  `Нельзя использовать топор на ${
-                    state.playersInfo[action.playerTargetIndex].name
-                  }`
-                )
-                return state
-                break
-              }
+              return usedCardAxe(state, action.playerTargetIndex)
+              break
+              // if (
+              //   state.playersInfo[action.playerTargetIndex].name ===
+              //   "Boarder door"
+              // ) {
+              //   return {
+              //     ...state,
+              //     playersInfo: state.playersInfo.filter(
+              //       (_, index) => index !== action.playerTargetIndex
+              //     ),
+              //     moveStatus: "trashCard",
+              //   }
+              //   break
+              // } else if (
+              //   state.playersInfo[action.playerTargetIndex].statusPlayer ===
+              //   "quarantine"
+              // ) {
+              //   return {
+              //     ...state,
+              //     playersInfo: state.playersInfo.map((player, index) => {
+              //       if (index === action.playerTargetIndex) {
+              //         //
+              //         return {
+              //           ...player,
+              //           statusPlayer: "default",
+              //           // условно пока для этого нет логики
+              //           countQuarantine: 0,
+              //         }
+              //       } else {
+              //         return player
+              //       }
+              //     }),
+              //     moveStatus: "exchangeCard",
+              //   }
+              //   break
+              // } else {
+              //   alert(
+              //     `Нельзя использовать топор на ${
+              //       state.playersInfo[action.playerTargetIndex].name
+              //     }`
+              //   )
+              //   return state
+              //   break
+              // }
             } else {
               alert(
                 `Нельзя использовать ${state.activeCard.name} на заколоченную дверь`
@@ -546,13 +549,13 @@ export const optionPlayersReduce = (state, action) => {
       if (state.moveStatus === "selectCard") {
         if (state.playersInfo[action.player].clickCard !== null) {
           const indexCard = getIndexCard(state, action.player)
-          const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+          const nextPlayerIndex = getNextPlayerIndex(state)
           if (state.playersInfo[nextPlayerIndex].name === "Boarder door") {
             console.log(state.playersInfo)
             return setPlayerActiveForDoor(
               state,
               nextPlayerIndex,
-              action.player,
+              // action.player,
               state.playersInfo[action.player].clickCard
             )
           }
@@ -578,14 +581,14 @@ export const optionPlayersReduce = (state, action) => {
       } else if (state.moveStatus === "trashCard") {
         // const indexActivePlayer = action.playerIndex // получение из dicpatch
         // const activePlayer = state.playersInfo[indexActivePlayer]
-        const nextPlayerIndex = getNextPlayerIndex(state, state.wayGame)
+        const nextPlayerIndex = getNextPlayerIndex(state)
 
         if (state.playersInfo[nextPlayerIndex].name === "Boarder door") {
           console.log(state.playersInfo)
           return setPlayerActiveForDoor(
             state,
             nextPlayerIndex,
-            action.player,
+            // action.player,
             state.activeCard
           )
           break

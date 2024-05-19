@@ -29,7 +29,7 @@ export function activateCardAxe(state, indexActivePlayer, indexCard) {
   }
 }
 
-export function usedCardAxe(state, activePlayerIndex) {
+export function usedCardAxeTomyself(state, activePlayerIndex) {
   return {
     ...state,
     playersInfo: state.playersInfo.map((player, index) => {
@@ -40,5 +40,37 @@ export function usedCardAxe(state, activePlayerIndex) {
       }
     }),
     moveStatus: "trashCard",
+  }
+}
+
+export function usedCardAxe(state, playerTargetIndex) {
+  if (state.playersInfo[playerTargetIndex].name === "Boarder door") {
+    return {
+      ...state,
+      playersInfo: state.playersInfo.filter(
+        (_, index) => index !== playerTargetIndex
+      ),
+      moveStatus: "trashCard",
+    }
+  } else if (
+    state.playersInfo[playerTargetIndex].statusPlayer === "quarantine"
+  ) {
+    return {
+      ...state,
+      playersInfo: state.playersInfo.map((player, index) => {
+        if (index === playerTargetIndex) {
+          //
+          return {
+            ...player,
+            statusPlayer: "default",
+            // условно пока для этого нет логики
+            countQuarantine: 0,
+          }
+        } else {
+          return player
+        }
+      }),
+      moveStatus: "exchangeCard",
+    }
   }
 }

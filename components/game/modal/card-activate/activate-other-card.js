@@ -13,10 +13,18 @@ export function setPlayerTargetAndUseCard(state, playerTargetIndex) {
   switch (activeCard.name) {
     case "Заколоченная дверь":
       console.log("Дверь сработала")
-      const checkIndex =
-        playerTargetIndex === nextPlayerIndex
-          ? playerTargetIndex
-          : activePlayerIndex
+      let checkIndex
+      if (state.wayGame === "right") {
+        checkIndex =
+          playerTargetIndex === nextPlayerIndex
+            ? playerTargetIndex
+            : activePlayerIndex
+      } else {
+        checkIndex =
+          playerTargetIndex === nextPlayerIndex
+            ? activePlayerIndex
+            : playerTargetIndex
+      }
 
       const newDoor = {
         id: Math.random(),

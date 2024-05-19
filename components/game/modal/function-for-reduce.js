@@ -149,17 +149,8 @@ export function setPlayerStatus(state, playerIndex, status = {}) {
   })
 }
 
-export function setPlayerActiveForDoor(
-  state,
-  nextPlayerIndex,
-  indexActionPlayer,
-  card
-) {
-  const newNextPlayerIndex = nextPLayerIndexChange(
-    state,
-    indexActionPlayer,
-    nextPlayerIndex
-  )
+export function setPlayerActiveForDoor(state, nextPlayerIndex, card) {
+  const newNextPlayerIndex = nextPLayerIndexChange(state, nextPlayerIndex)
 
   return {
     ...state,

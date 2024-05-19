@@ -40,7 +40,7 @@ export function Game() {
         mode: "Классика",
       },
       moveStatus: "getCard", //getCard, selectCard(selectCard/activeCard),useCard,useBlockCard,trashCard,exchangeCard
-      wayGame: "right",
+      wayGame: "left",
       countStep: 0,
       // clickCard: null,
       //имя игрока, его роль(заражён,выживший, нечто), время на ход, ео карты, isActivePlayer:true или false , status:bash,default and death
