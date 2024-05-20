@@ -59,6 +59,14 @@ export function setPlayerTargetAndUseCard(state, playerTargetIndex) {
         isOpenModal: true,
       }
       break
+    // case "Огнемёт":
+    //   if(state.moveStatus === 'useCard'){
+    //     return {
+    //       ...state,
+    //       playersInfo: setPlayerTarget(state, playerTargetIndex),
+    //       moveStatus: "useBlockCard",
+    //     }
+    //   }
     default:
       return {
         ...state,

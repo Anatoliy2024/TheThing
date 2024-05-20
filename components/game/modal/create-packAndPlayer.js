@@ -13,7 +13,7 @@ export function createPlayerInfo(count) {
   const players = PLAYERS.slice(0, count).map((el) => {
     const player = {
       ...el,
-      isRole: "survivor",
+      isRole: "survivor", //theThing,infected
       time: 6000,
       playerDeck: [],
       isPlayerActive: false, //кто ходит в данный момент

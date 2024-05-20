@@ -185,7 +185,6 @@ export function playersCheckExchangeCard(
   const player = state.playersInfo[playerIndexOne]
 
   if (player.isRole === "survivor") {
-    console.log(activeCard)
     if (activeCard.name !== "Заражение") {
       return {
         ...state,
@@ -293,48 +292,6 @@ export function playersCheckExchangeCard(
 //     return state
 //   }
 // }
-
-export function exchangeCardPlayer(
-  state,
-  indexActivePlayer,
-  nextPlayerIndex,
-  cardActivePlayer,
-  cardNextPlayer
-) {
-  console.log("первый", state.playersInfo[indexActivePlayer])
-  console.log("второй", state.playersInfo[nextPlayerIndex])
-  return state.playersInfo.map((player, index) => {
-    if (index === indexActivePlayer) {
-      return {
-        ...player,
-        playerDeck: player.playerDeck.map((card) => {
-          if (card.id === cardActivePlayer.id) {
-            return cardNextPlayer
-          }
-          return card
-        }),
-        clickCard: null,
-        exchangeCard: null,
-        isPlayerActive: false,
-      }
-    } else if (index === nextPlayerIndex) {
-      return {
-        ...player,
-        playerDeck: player.playerDeck.map((card) => {
-          if (card.id === cardNextPlayer.id) {
-            return cardActivePlayer
-          }
-          return card
-        }),
-        clickCard: null,
-        exchangeCard: null,
-        isPlayerActive: true,
-        isTarget: "noTarget",
-      }
-    }
-    return player
-  })
-}
 
 export function checkPlayerSeatNearby(
   arrayPlayers,

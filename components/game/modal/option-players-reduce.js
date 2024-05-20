@@ -5,11 +5,11 @@ import {
 } from "./card-activate/activate-card-axe"
 import { setPlayerTargetAndUseCard } from "./card-activate/activate-other-card"
 import { useCardToMyself } from "./card-activate/use-card-to-myself"
+import { exchangeCardPlayer } from "./exchange-card-player"
 import {
   changeClickCard,
   delCard,
   delCardPLayerPack,
-  exchangeCardPlayer,
   getActivePlayerIndex,
   getCard,
   getIndexCard,
@@ -50,14 +50,17 @@ export const optionPlayersReduce = (state, action) => {
     case GAME_STATE_ACTIONS.STATUS: {
       if (action.status === "option") {
         return { ...state, status: "option" }
+        break
       } else if (action.status === "search") {
         return { ...state, status: "search" }
+        break
       } else if (action.status === "game") {
         return { ...state, status: "game" }
+        break
       } else {
         return state
+        break
       }
-      break
     }
     case GAME_STATE_ACTIONS.OPTIONS: {
       console.log(action.options)
@@ -72,10 +75,11 @@ export const optionPlayersReduce = (state, action) => {
           pack: action.pack,
           playersInfo: action.playerDesk,
         }
+        break
       } else {
         return state
+        break
       }
-      break
     }
     case GAME_STATE_ACTIONS.GET_CARD: {
       if (state.moveStatus === "getCard") {
@@ -90,6 +94,7 @@ export const optionPlayersReduce = (state, action) => {
                 isTarget: "noTarget",
               }),
             }
+            break
           } else {
             return {
               ...state,
@@ -97,15 +102,18 @@ export const optionPlayersReduce = (state, action) => {
               playersInfo: getCard(state, action.player, action.card),
               moveStatus: "selectCard",
             }
+            break
           }
         } else {
           const newDeck = shuffleArray(state.trash)
 
           return { ...state, trash: [], pack: newDeck }
+          break
         }
       } else {
         alert("Вы уже взяли карту из колода")
         return state
+        break
       }
       break
     }
@@ -132,16 +140,19 @@ export const optionPlayersReduce = (state, action) => {
             ...state,
             playersInfo: changeClickCard(state, indexActivePlayer, null),
           }
+          break
         } else {
           return {
             ...state,
             playersInfo: changeClickCard(state, indexActivePlayer, action.card),
           }
+          break
         }
       } else {
         return state
+        break
       }
-      break
+
       // if (state.moveStatus === "selectCard") {
       //   console.log(action.card)
       //   console.log(action.player)
@@ -259,7 +270,7 @@ export const optionPlayersReduce = (state, action) => {
                     { clickCard: null }
                   ),
                   activeCard: activePlayer.clickCard,
-                  // clickCard: null,
+
                   moveStatus: "useCard",
                 }
                 break
@@ -274,7 +285,7 @@ export const optionPlayersReduce = (state, action) => {
                   { clickCard: null }
                 ),
                 activeCard: activePlayer.clickCard,
-                // clickCard: null,
+
                 moveStatus: "useCard",
               }
               break
@@ -294,8 +305,6 @@ export const optionPlayersReduce = (state, action) => {
         const activePlayer = state.playersInfo[indexActivePlayer]
         const nextPlayerIndex = getNextPlayerIndex(state)
         const nextPlayer = state.playersInfo[nextPlayerIndex]
-
-        // console.log("ActiveCard")
 
         if (
           activePlayer.clickCard !== null &&
@@ -377,15 +386,35 @@ export const optionPlayersReduce = (state, action) => {
     }
     case GAME_STATE_ACTIONS.USE_CARD: {
       if (state.moveStatus === "useCard") {
-        console.log("сработал use карт")
-        return { ...state, moveStatus: "trashCard" }
-      } else if ((state.moveStatus = "exchangeCard")) {
+        if (state.isOpenModal === false) {
+          return { ...state, moveStatus: "trashCard" }
+          break
+        } else {
+          return {
+            ...state,
+            playersInfo: state.playersInfo.map((player) => {
+              if (action.targetPlayer.id === player.id) {
+                return { ...player, exchangeCard: action.clickCard }
+              } else {
+                return player
+              }
+            }),
+            moveStatus: "trashCard",
+          }
+          break
+        }
+      } else if (state.moveStatus === "exchangeCard") {
         console.log("Next игрок положил карту")
         const nextPlayerIndex = getNextPlayerIndex(state)
-        const randomIndex = Math.floor(Math.random() * 4)
-
-        const randomCard =
-          state.playersInfo[nextPlayerIndex].playerDeck[randomIndex]
+        let randomCard
+        for (let i = 0; i < 20; i++) {
+          const randomIndex = Math.floor(Math.random() * 4)
+          randomCard =
+            state.playersInfo[nextPlayerIndex].playerDeck[randomIndex]
+          if (randomCard.name !== "Нечто" && randomCard.name !== "Заражение") {
+            break
+          }
+        }
 
         return {
           ...state,
@@ -401,6 +430,7 @@ export const optionPlayersReduce = (state, action) => {
           }),
           activeCard: randomCard,
         }
+        break
       } else state
       break
     }
@@ -536,8 +566,15 @@ export const optionPlayersReduce = (state, action) => {
       }
     }
     case GAME_STATE_ACTIONS.MODAL_CLOSE: {
-      if (state.moveStatus === "useCard") {
-        return { ...state, isOpenModal: false, moveStatus: "trashCard" }
+      if (state.moveStatus === "trashCard" || state.moveStatus === "useCard") {
+        return {
+          ...state,
+          isOpenModal: false,
+          moveStatus: "trashCard",
+          playersInfo: state.playersInfo.map((player) => {
+            return { ...player, exchangeCard: null }
+          }),
+        }
         break
       } else {
         return state
@@ -547,36 +584,47 @@ export const optionPlayersReduce = (state, action) => {
     // когда стадия useCard ИГРОК БУДЕТ СОВЕРШАТЬ ДЕЙСТВИЕ и как только он его совершит moveStatus поменяется на trashCard нужно новый кейс добавить но сейчас сразу начинается trashCard для упрощения
     case GAME_STATE_ACTIONS.TRASH_CARD: {
       if (state.moveStatus === "selectCard") {
-        if (state.playersInfo[action.player].clickCard !== null) {
-          const indexCard = getIndexCard(state, action.player)
-          const nextPlayerIndex = getNextPlayerIndex(state)
-          if (state.playersInfo[nextPlayerIndex].name === "Boarder door") {
-            console.log(state.playersInfo)
-            return setPlayerActiveForDoor(
-              state,
-              nextPlayerIndex,
-              // action.player,
-              state.playersInfo[action.player].clickCard
-            )
-          }
-          return {
-            ...state,
-            trash: [...state.trash, state.playersInfo[action.player].clickCard],
-            playersInfo: delCardPLayerPack(
-              state,
-              action.player,
-              indexCard,
-              {
-                clickCard: null,
-              },
-              nextPlayerIndex,
-              { isTarget: "nextPlayer" }
-            ),
-            moveStatus: "exchangeCard",
+        const activeCard = state.playersInfo[action.player].clickCard
+        if (activeCard !== null) {
+          if (activeCard.status !== "blocked") {
+            const indexCard = getIndexCard(state, action.player)
+            const nextPlayerIndex = getNextPlayerIndex(state)
+            if (state.playersInfo[nextPlayerIndex].name === "Boarder door") {
+              console.log(state.playersInfo)
+              return setPlayerActiveForDoor(
+                state,
+                nextPlayerIndex,
+                // action.player,
+                activeCard
+              )
+              break
+            } else {
+              return {
+                ...state,
+                trash: [...state.trash, activeCard],
+                playersInfo: delCardPLayerPack(
+                  state,
+                  action.player,
+                  indexCard,
+                  {
+                    clickCard: null,
+                  },
+                  nextPlayerIndex,
+                  { isTarget: "nextPlayer" }
+                ),
+                moveStatus: "exchangeCard",
+              }
+              break
+            }
+          } else {
+            alert(`Карту ${activeCard.name} нельзя сбросить`)
+            return state
+            break
           }
         } else {
           alert("карта не выбрана")
           return state
+          break
         }
       } else if (state.moveStatus === "trashCard") {
         // const indexActivePlayer = action.playerIndex // получение из dicpatch
@@ -612,7 +660,6 @@ export const optionPlayersReduce = (state, action) => {
 
     default: {
       return state
-      break
     }
   }
 }

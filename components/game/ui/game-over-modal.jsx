@@ -3,16 +3,11 @@ import { UiCard } from "../../uikit/ui-card"
 import { createPortal } from "react-dom"
 import clsx from "clsx"
 import { GAME_STATE_ACTIONS } from "../modal/option-players-reduce"
-// import { useEffect, useState } from "react"
+import { ModalMain } from "./game-over-modal-main"
 
 export function GameOverModal({ optionPlayers, dispatch }) {
   const { isOpenModal } = optionPlayers
-  //   const [isBrowser, setIsBrowser] = useState(false)
-  //   useEffect(() => {
-  //     setIsBrowser(true)
-  //   }, [])
 
-  //   if (!isBrowser || !isOpenModal) return null
   if (!isOpenModal) return null
   const { activeCard, playersInfo } = optionPlayers
   const targetPlayerIndex = playersInfo.findIndex(
@@ -22,7 +17,7 @@ export function GameOverModal({ optionPlayers, dispatch }) {
   const targetPlayer = playersInfo.find(
     (player) => player.isTarget === "targetPlayer"
   )
-  //fixed inset-0 bg-slate-900/60 backdrop-blur  pt-10 pb-10 overflow-y-auto
+
   const modal = (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur  pt-10 pb-10 overflow-y-auto z-50">
       <div
@@ -49,26 +44,7 @@ export function GameOverModal({ optionPlayers, dispatch }) {
             />
           </UiCard>
         </div>
-        <div className="flex flex-col gap-3 items-center">
-          <div>на {targetPlayer.name}</div>
-          <div className="flex gap-5 justify-center">
-            {targetPlayer?.playerDeck.map((card) => {
-              return (
-                <UiCard
-                  key={card.id}
-                  className=" hover:scale-[1.3] duration-300 transition-transform "
-                >
-                  <Image
-                    unoptimized
-                    alt={card.name}
-                    src={card.shirt}
-                    className={clsx("max-w-[150px] rounded-xl")}
-                  />
-                </UiCard>
-              )
-            })}
-          </div>
-        </div>
+        <ModalMain optionPlayers={optionPlayers} dispatch={dispatch} />
       </div>
     </div>
   )
@@ -95,3 +71,32 @@ function CrossLightIcon({ className }) {
     </svg>
   )
 }
+
+// function ModalMain({ optionPlayers, dispatch }){
+
+//   const targetPlayer = playersInfo.find(
+//     (player) => player.isTarget === "targetPlayer"
+//   )
+//   return (
+//     <div className="flex flex-col gap-3 items-center">
+//           <div>на {targetPlayer.name}</div>
+//           <div className="flex gap-5 justify-center">
+//             {targetPlayer?.playerDeck.map((card) => {
+//               return (
+//                 <UiCard
+//                   key={card.id}
+//                   className=" hover:scale-[1.3] duration-300 transition-transform "
+//                 >
+//                   <Image
+//                     unoptimized
+//                     alt={card.name}
+//                     src={card.shirt}
+//                     className={clsx("max-w-[150px] rounded-xl")}
+//                   />
+//                 </UiCard>
+//               )
+//             })}
+//           </div>
+//         </div>
+//   )
+// }

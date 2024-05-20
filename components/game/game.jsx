@@ -12,7 +12,7 @@ import {
 } from "./modal/option-players-reduce"
 import { GameOverModal } from "./ui/game-over-modal"
 
-const PLAYER_COUNT = 4
+const PLAYER_COUNT = 12
 export function Game() {
   const [gameStart, setGameStart] = useState(false)
   // const pack = useMemo(() => createPack(PLAYER_COUNT), [gameStart])
@@ -49,7 +49,7 @@ export function Game() {
     },
     initialOptionPlayers
   )
-  console.log(optionPlayers)
+  console.log(optionPlayers.playersInfo)
   return (
     <>
       <GameLayout
