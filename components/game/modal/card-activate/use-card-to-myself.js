@@ -8,6 +8,22 @@ export function useCardToMyself(
 ) {
   switch (activeCard.name) {
     case "Упорство":
+      const newDeck = [...state.pack]
+      const newTrash = [...state.trash]
+      const cardsPerseverance = []
+      for (let i = 0; i < 20; i++) {
+        if (newDeck[newDeck.length - 1].property === "событие") {
+          const newCard = newDeck.pop()
+          cardsPerseverance.push(newCard)
+          if (cardsPerseverance.length === 3) {
+            break
+          }
+        } else {
+          const newCard = newDeck.pop()
+          newTrash.push(newCard)
+        }
+      }
+
       return {
         ...state,
         playersInfo: delCardPLayerPack(state, indexActivePlayer, indexCard, {
@@ -15,6 +31,10 @@ export function useCardToMyself(
         }),
         activeCard: activeCard,
         moveStatus: "useCard",
+        isOpenModal: true,
+        pack: newDeck,
+        trash: newTrash,
+        isCardPerseverance: cardsPerseverance,
       }
       break
     case "Гляди по сторонам":

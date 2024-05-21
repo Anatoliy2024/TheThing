@@ -46,10 +46,11 @@ export function Game() {
       //имя игрока, его роль(заражён,выживший, нечто), время на ход, ео карты, isActivePlayer:true или false , status:bash,default and death
       playersInfo: useMemo(() => createPlayerInfo(PLAYER_COUNT), [gameStart]),
       isOpenModal: false,
+      isCardPerseverance: [],
     },
     initialOptionPlayers
   )
-  console.log(optionPlayers.playersInfo)
+  console.log(optionPlayers)
   return (
     <>
       <GameLayout

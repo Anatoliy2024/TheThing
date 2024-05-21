@@ -374,6 +374,35 @@ export const optionPlayersReduce = (state, action) => {
         /** Проверка на то что есть ли у обоих игроков карты в clickCard  если есть тогда обмен сразу  или внутри функции проверить и обменяться? возможно лучше внутри после того как задал ехчендж первому игроку проверь есть ли ехчендж у второго, если есть обмен
          * потом на кнопу создай псевдо отдачу каты следующим игроком а затем будет меняться активный игрок и начинается следущий ход
          */
+      } else if (state.moveStatus === "useCard") {
+        if (state.activeCard.name === "Упорство") {
+          console.log("Упорство")
+          const newCardPerseverance = [...state.isCardPerseverance].filter(
+            (card) => card.id !== action.clickCard.id
+          )
+          const activePlayerIndex = state.playersInfo.findIndex(
+            (player) => player.isPlayerActive
+          )
+
+          return {
+            ...state,
+            isOpenModal: false,
+            isCardPerseverance: [],
+            moveStatus: "selectCard",
+            playersInfo: state.playersInfo.map((player, index) => {
+              if (index === activePlayerIndex) {
+                return {
+                  ...player,
+                  playerDeck: [...player.playerDeck, action.clickCard],
+                }
+              } else {
+                return player
+              }
+            }),
+            trash: [state.trash, ...newCardPerseverance],
+            activeCard: null,
+          }
+        }
       } else if (state.moveStatus === "useBlockCard") {
         //добавить логику защитных карт
         console.log("Стадия блокирования карты")
@@ -389,7 +418,7 @@ export const optionPlayersReduce = (state, action) => {
         if (state.isOpenModal === false) {
           return { ...state, moveStatus: "trashCard" }
           break
-        } else {
+        } else if (state.activeCard === "Подозрение") {
           return {
             ...state,
             playersInfo: state.playersInfo.map((player) => {
@@ -401,6 +430,9 @@ export const optionPlayersReduce = (state, action) => {
             }),
             moveStatus: "trashCard",
           }
+          break
+        } else {
+          return state
           break
         }
       } else if (state.moveStatus === "exchangeCard") {

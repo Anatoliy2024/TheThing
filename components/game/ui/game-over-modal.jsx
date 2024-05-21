@@ -10,9 +10,11 @@ export function GameOverModal({ optionPlayers, dispatch }) {
 
   if (!isOpenModal) return null
   const { activeCard, playersInfo } = optionPlayers
+
   const targetPlayerIndex = playersInfo.findIndex(
     (player) => player.isTarget === "targetPlayer"
   )
+
   const activePlayer = playersInfo.find((player) => player.isPlayerActive)
   const targetPlayer = playersInfo.find(
     (player) => player.isTarget === "targetPlayer"
@@ -24,12 +26,14 @@ export function GameOverModal({ optionPlayers, dispatch }) {
         data-id="modal"
         className="bg-sky-950/90 max-w-[900px] rounded-lg min-h-[320px] mx-auto flex flex-col items-center py-5 text-lime-500 text-2xl gap-3 relative"
       >
-        <div
-          className=" rounded-full border-2 border-lime-500 p-4 absolute top-6 right-6 hover:bg-lime-500/10 cursor-pointer"
-          onClick={() => dispatch({ type: GAME_STATE_ACTIONS.MODAL_CLOSE })}
-        >
-          <CrossLightIcon className="" />
-        </div>
+        {targetPlayer && (
+          <div
+            className=" rounded-full border-2 border-lime-500 p-4 absolute top-6 right-6 hover:bg-lime-500/10 cursor-pointer"
+            onClick={() => dispatch({ type: GAME_STATE_ACTIONS.MODAL_CLOSE })}
+          >
+            <CrossLightIcon className="" />
+          </div>
+        )}
 
         <div className="flex flex-col gap-3 items-center ">
           <h3>{activePlayer.name} использовал(-ла)</h3>
