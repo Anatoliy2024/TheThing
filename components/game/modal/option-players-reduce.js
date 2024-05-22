@@ -399,7 +399,7 @@ export const optionPlayersReduce = (state, action) => {
                 return player
               }
             }),
-            trash: [state.trash, ...newCardPerseverance],
+            trash: [...state.trash, ...newCardPerseverance, state.activeCard],
             activeCard: null,
           }
         }
